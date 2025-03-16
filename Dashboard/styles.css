@@ -423,3 +423,101 @@ th {
         width: 95%;
     }
 }
+.modal-content {
+    background: #f8fff0; /* Light green background */
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal h3 {
+    color: #2d6a4f; /* Dark green */
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+form label {
+    font-weight: bold;
+    display: block;
+    margin: 10px 0 5px;
+    color: #1b4332; /* Deep green */
+}
+
+form input, form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #52b788; /* Soft green border */
+    border-radius: 5px;
+}
+
+form button {
+    background: #40916c; /* Green button */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+form button:hover {
+    background: #1b4332; /* Dark green hover */
+}
+/* KEFARM Edit Order Styling */
+.edit-order-container {
+    background: #e8f5e9; /* Light Green */
+    border: 2px solid #2e7d32; /* Dark Green */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 50px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.edit-order-container h2 {
+    color: #1b5e20; /* Dark Green */
+    margin-bottom: 15px;
+}
+
+.edit-order-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-order-form label {
+    font-weight: bold;
+    color: #2e7d32; /* Dark Green */
+    text-align: left;
+}
+
+.edit-order-form input,
+.edit-order-form select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 10px;
+    border: 1px solid #2e7d32;
+    border-radius: 5px;
+}
+
+.edit-order-form button {
+    width: 100%;
+    background: #1b5e20; /* Dark Green */
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.edit-order-form button:hover {
+    background: #388e3c; /* Lighter Green */
+}
