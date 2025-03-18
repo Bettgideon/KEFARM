@@ -23,13 +23,13 @@ if (!isset($_SESSION["user_id"])) {
         <h2>KEFARM</h2>
         <ul>
         <a href="index.php"><i class="fas fa-home"></i> Dashboard</a>
-<a href="farm_management.php"><i class="fas fa-seedling"></i> Farm Management</a>
-<a href="orders_sales.php"><i class="fas fa-shopping-cart"></i> Orders & Sales</a>
-<a href="inventory.php"><i class="fas fa-warehouse"></i> Inventory</a>
-<a href="reports.php"><i class="fas fa-chart-line"></i> Reports</a>
-<a href="users.php"><i class="fas fa-users"></i> User Management</a>
-<a href="settings.php"><i class="fas fa-cog"></i> Settings</a>
-<a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <a href="farm_management.php"><i class="fas fa-seedling"></i> Farm Management</a>
+    <a href="orders_sales.php" class="active"><i class="fas fa-shopping-cart"></i> Orders & Sales</a>
+    <a href="inventory.php"><i class="fas fa-warehouse"></i> Inventory</a>
+    <a href="reports.php"><i class="fas fa-chart-line"></i> Reports</a>
+    <a href="users.php"><i class="fas fa-users"></i> User Management</a>
+    <a href="settings.php"><i class="fas fa-cog"></i> Settings</a>
+    <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
 
         </ul>
     </div>
