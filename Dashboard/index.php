@@ -1,3 +1,5 @@
+
+<?php include 'includes/sidebar.php'; ?> <!-- Include Sidebar -->
 <?php
 session_start();
 if (!isset($_SESSION["user_id"])) {
@@ -6,7 +8,6 @@ if (!isset($_SESSION["user_id"])) {
 }
 ?>
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
