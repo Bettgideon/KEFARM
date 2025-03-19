@@ -20,96 +20,114 @@
 </div>
 
 <style>
-    /* Sidebar Styling */
-    .sidebar {
-        position: fixed;
-        left: -250px; /* Initially hidden on mobile */
-        top: 0;
-        width: 250px;
-        height: 100vh;
-        background-color: #1a3e1f; /* Dark Green */
-        padding-top: 60px; /* Push items down to prevent overlap */
-        transition: left 0.3s ease-in-out;
-        z-index: 2000;
-    }
+   /* Header Styling */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* Fixed height */
+    background-color: #1a3e1f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    z-index: 3000; /* Ensure it's above sidebar */
+}
 
-    .sidebar.active {
-        left: 0; /* Slide in when active */
-    }
+/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    left: -250px; /* Initially hidden on mobile */
+    top: 60px; /* Adjusted to start below the header */
+    width: 250px;
+    height: calc(100vh - 60px); /* Prevent overlap with header */
+    background-color: #1a3e1f;
+    padding-top: 20px;
+    transition: left 0.3s ease-in-out;
+    z-index: 2000; /* Below header */
+}
 
-    /* Sidebar Links */
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
+.sidebar.active {
+    left: 0; /* Slide in when active */
+}
 
-    .sidebar ul li {
-        margin-bottom: 10px;
-    }
+/* Sidebar Links */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
 
-    .sidebar a {
-        display: flex;
-        align-items: center;
-        padding: 12px;
-        color: white;
-        text-decoration: none;
-        font-size: 16px;
-        border-radius: 5px;
-        transition: background 0.3s;
-    }
+.sidebar ul li {
+    margin-bottom: 10px;
+}
 
-    .sidebar a:hover {
-        background-color: #28a745; /* Light Green */
-    }
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
 
-    /* Sidebar Icons */
-    .sidebar a i {
-        margin-right: 12px;
-        font-size: 18px;
-    }
+.sidebar a:hover {
+    background-color: #1a3e1f;
+}
 
-    /* Menu Toggle Button (Fixed at Top-Left) */
+/* Sidebar Icons */
+.sidebar a i {
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+/* Menu Toggle Button */
+.menu-toggle {
+    display: block;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background-color: #1a3e1f;
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 3000;
+}
+
+/* Page Content Wrapper */
+.content {
+    margin-left: 0;
+    transition: margin-left 0.3s ease-in-out;
+    padding: 20px;
+    margin-top: 60px; /* Prevent overlap with header */
+}
+
+/* Adjust when sidebar is active */
+.sidebar.active + .content {
+    margin-left: 250px;
+}
+
+/* Desktop View */
+@media (min-width: 769px) {
     .menu-toggle {
-        display: block;
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        background-color: #1a3e1f;
-        padding: 8px 12px;
-        border-radius: 5px;
-        color: white;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        z-index: 3000; /* Higher than sidebar */
+        display: none;
     }
 
-    /* Page Content Wrapper */
+    .sidebar {
+        left: 0;
+    }
+
     .content {
-        margin-left: 0; /* Default (Mobile) */
-        transition: margin-left 0.3s ease-in-out;
-        padding: 20px;
+        margin-left: 250px;
     }
+}
 
-    /* Adjust when sidebar is active */
-    .sidebar.active + .content {
-        margin-left: 250px; /* Push content right */
-    }
-
-    /* Desktop View */
-    @media (min-width: 769px) {
-        .menu-toggle {
-            display: none;
-        }
-
-        .sidebar {
-            left: 0;
-        }
-
-        .content {
-            margin-left: 250px; /* Always visible on desktop */
-        }
-    }
 </style>
 
 <!-- JavaScript for Sidebar Toggle -->

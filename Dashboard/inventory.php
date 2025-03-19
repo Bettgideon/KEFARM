@@ -1,5 +1,5 @@
-
-
+<?php include 'includes/header.php'; ?> <!-- Include Header -->
+<?php include 'includes/sidebar.php'; ?> <!-- Include Sidebar -->
 
 
 <!DOCTYPE html>
@@ -10,137 +10,162 @@
     <title>Inventory Management - KEFARM</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f0fff4;
-        }
-        .sidebar {
-            width: 100%;
-            background: #1b5e20;
-            padding: 10px;
-            text-align: center;
-        }
-        .sidebar a {
-            display: block;
-            color: white;
-            padding: 10px;
-            text-decoration: none;
-        }
-        .sidebar a:hover {
-            background: #145a32;
-        }
-        .main-content {
-            width: 90%;
-            max-width: 1200px;
-            padding: 20px;
-            text-align: center;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background: #1e5631;
-            color: white;
-        }
-        .button {
-            background: #004d00;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s ease;
-        }
-        .button:hover {
-            background: #003300;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50;
-            left: 50;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-        .modal h3 {
-            background: #1e5631;
-            color: white;
-            padding: 15px;
-            border-radius: 10px 10px 0 0;
-        }
-        .modal input, .modal select {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #1e5631;
-            border-radius: 5px;
-            background: #f0fff4;
-        }
-        .modal button {
-            background: #1e5631;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-        }
-        .modal button:hover {
-            background: #145a32;
-        }
-        @media (min-width: 768px) {
-            .sidebar {
-                width: 250px;
-                height: 100vh;
-                position: fixed;
-                left: 0;
-                top: 0;
-                text-align: left;
-            }
-            .sidebar a {
+        /* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f4f4f4;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background: #1a3e1f;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100vh;
+    overflow-y: auto;
+    padding-top: 20px;
+    transition: left 0.3s ease-in-out;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar h2 {
+    text-align: center;
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: white;
     display: flex;
     align-items: center;
-    gap: 10px; /* Adds space between icon and text */
+    gap: 10px;
+    font-size: 16px;
+    padding: 12px;
 }
 
-.sidebar a i {
-    width: 20px; /* Ensures icons have space */
+.sidebar ul li a:hover, 
+.sidebar ul li a.active {
+    background: #28a745;
+    border-radius: 5px;
 }
 
-            .main-content {
-                margin-left: 260px;
-                width: calc(100% - 260px);
-            }
-        }
-        button {
+.logout {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.logout a {
+    background: red;
+    color: white;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.logout a:hover {
+    background: darkred;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 80px 20px 20px;
+    width: 100%;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* Header */
+header {
+    background: #28a745;
+    padding: 15px;
+    color: white;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 60px;
+    line-height: 30px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* Mobile Sidebar */
+.mobile-menu {
+    display: block;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background: #28a745;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+@media (min-width: 769px) {
+    .sidebar {
+        left: 0;
+    }
+    .mobile-menu {
+        display: none;
+    }
+    .main-content {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+    header {
+        width: calc(100% - 250px);
+        left: 250px;
+    }
+}
+
+/* Cards Layout */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.card i {
+    font-size: 30px;
+    color: #28a745;
+}
+
+/* Buttons */
+button {
     padding: 8px 12px;
     border: none;
     border-radius: 5px;
@@ -160,41 +185,155 @@ button:active {
 .edit-btn {
     background-color: #4CAF50; /* Green */
     color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 .delete-btn {
     background-color: #f44336; /* Red */
     color: white;
-    padding: 8px 12px;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background: #1e5631;
+    color: white;
+}
+
+/* Action Buttons */
+.button {
+    background: #004d00;
+    color: white;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
 }
 
+.button:hover {
+    background: #003300;
+}
 
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 100;
+    left: 100;
+    width: 50%;
+    height: 0%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.modal h3 {
+    background: #1e5631;
+    color: white;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+}
+
+.modal input, .modal select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #1e5631;
+    border-radius: 5px;
+    background: #f0fff4;
+}
+
+.modal button {
+    background: #1e5631;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.modal button:hover {
+    background: #145a32;
+}
+
+/* Responsive Sidebar */
+@media (min-width: 768px) {
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        text-align: left;
+    }
+
+    .sidebar a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .sidebar a i {
+        width: 20px;
+    }
+
+    .main-content {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+    }
+}
+.menu-item.active {
+    background-color: #28a745; /* Change to your desired color */
+    color: white;
+}
 
     </style>
+    
 </head>
 <body>
 <?php
     $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 
-<div class="sidebar">
-    <h3>KEFARM</h3>
-    <a href="index.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-<a href="farm_management.php"><i class="fas fa-tractor"></i> Farm Management</a>
-<a href="orders_sales.php"><i class="fas fa-shopping-cart"></i> Orders & Sales</a>
-<a href="inventory.php"><i class="fas fa-warehouse"></i> Inventory</a>
-<a href="reports.php"><i class="fas fa-chart-line"></i> Reports</a>
-<a href="users.php"><i class="fas fa-users"></i> User Management</a>
-<a href="settings.php"><i class="fas fa-cog"></i> Settings</a>
-<a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
-
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <h2>KEFARM</h2>
+    <ul>
+        <li><a href="index.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="farm_management.php"><i class="fas fa-seedling"></i> Farm Management</a></li>
+        <li><a href="orders_sales.php"><i class="fas fa-shopping-cart"></i> Orders & Sales</a></li>
+        <li><a href="inventory.php"><i class="fas fa-warehouse"></i> Inventory</a></li>
+        <li><a href="reports.php"><i class="fas fa-chart-line"></i> Reports</a></li>
+        <li><a href="users.php"><i class="fas fa-users"></i> User Management</a></li>
+        <li><a href="settings.php"><i class="fas fa-cog"></i> Settings</a></li>
+    </ul>
+    <div class="logout">
+        <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
 </div>
 
 
@@ -288,49 +427,85 @@ button:active {
     </div>
 
     <script>
-        function openAddModal() {
-            document.getElementById("addItemModal").style.display = "flex";
+        // Open Add Item Modal
+function openAddModal() {
+    document.getElementById("addItemModal").style.display = "flex";
+}
+
+// Close Add Item Modal
+function closeAddModal() {
+    document.getElementById("addItemModal").style.display = "none";
+}
+
+// Open Edit Item Modal
+function openEditModal(id) {
+    fetch(`get_inventory_item.php?id=${id}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data) {
+            document.getElementById("edit_id").value = data.id;
+            document.getElementById("edit_product_name").value = data.product_name;
+            document.getElementById("edit_category").value = data.category;
+            document.getElementById("edit_quantity").value = data.quantity;
+            document.getElementById("edit_unit_price").value = data.unit_price;
+            document.getElementById("editModal").style.display = "flex";
+        } else {
+            alert("Failed to fetch item data.");
         }
-        function closeAddModal() {
-            document.getElementById("addItemModal").style.display = "none";
-        }
-        function openEditModal(id) {
-            fetch(`get_inventory_item.php?id=${id}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("edit_id").value = data.id;
-                document.getElementById("edit_product_name").value = data.product_name;
-                document.getElementById("edit_category").value = data.category;
-                document.getElementById("edit_quantity").value = data.quantity;
-                document.getElementById("edit_unit_price").value = data.unit_price;
-                document.getElementById("editModal").style.display = "flex";
-            });
-        }
-        function closeEditModal() {
-            document.getElementById("editModal").style.display = "none";
-        }
-        function submitItem() {
-            let formData = new FormData();
-            formData.append("product_name", document.getElementById("product_name").value);
-            formData.append("category", document.getElementById("category").value);
-            formData.append("quantity", document.getElementById("quantity").value);
-            formData.append("unit_price", document.getElementById("unit_price").value);
-            fetch("add_inventory.php", { method: "POST", body: formData })
-            .then(response => response.text())
-            .then(data => { alert(data); closeAddModal(); location.reload(); });
-        }
-        function updateItem() {
-            let formData = new FormData();
-            formData.append("id", document.getElementById("edit_id").value);
-            formData.append("product_name", document.getElementById("edit_product_name").value);
-            formData.append("category", document.getElementById("edit_category").value);
-            formData.append("quantity", document.getElementById("edit_quantity").value);
-            formData.append("unit_price", document.getElementById("edit_unit_price").value);
-            fetch("update_inventory.php", { method: "POST", body: formData })
-            .then(response => response.text())
-            .then(data => { alert(data); closeEditModal(); location.reload(); });
-        }
-        function deleteItem(id) {
+    })
+    .catch(error => console.error("Error fetching item:", error));
+}
+
+// Close Edit Modal
+function closeEditModal() {
+    document.getElementById("editModal").style.display = "none";
+}
+
+// Add New Inventory Item
+function submitItem() {
+    let formData = new FormData();
+    formData.append("product_name", document.getElementById("product_name").value);
+    formData.append("category", document.getElementById("category").value);
+    formData.append("quantity", document.getElementById("quantity").value);
+    formData.append("unit_price", document.getElementById("unit_price").value);
+
+    fetch("add_inventory.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+        closeAddModal();
+        location.reload();
+    })
+    .catch(error => console.error("Error adding item:", error));
+}
+
+// Update Inventory Item
+function updateItem() {
+    let formData = new FormData();
+    formData.append("id", document.getElementById("edit_id").value);
+    formData.append("product_name", document.getElementById("edit_product_name").value);
+    formData.append("category", document.getElementById("edit_category").value);
+    formData.append("quantity", document.getElementById("edit_quantity").value);
+    formData.append("unit_price", document.getElementById("edit_unit_price").value);
+
+    fetch("update_inventory.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+        closeEditModal();
+        location.reload();
+    })
+    .catch(error => console.error("Error updating item:", error));
+}
+
+// Delete Inventory Item
+function deleteItem(id) {
     if (confirm("Are you sure you want to delete this item?")) {
         let formData = new FormData();
         formData.append("id", id);
@@ -340,10 +515,14 @@ button:active {
             body: formData
         })
         .then(response => response.text())
-        .then(data => { alert(data); location.reload(); })
-        .catch(error => console.error("Error:", error));
+        .then(data => {
+            alert(data);
+            location.reload();
+        })
+        .catch(error => console.error("Error deleting item:", error));
     }
 }
+
 
     </script>
 </body>

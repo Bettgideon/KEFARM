@@ -9,7 +9,7 @@
 <body>
     <div class="login-container">
         <h2>Login to KEFARM</h2>
-        <form action="dashboard.html" method="POST">
+        <form id="loginForm">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required placeholder="Enter your email">
 
@@ -18,31 +18,43 @@
 
             <button type="submit">Login</button>
         </form>
+
+        <!-- Error message container -->
+        <p id="login-error" class="error-message"></p>
+
         <p>Don't have an account? <a href="register.html" class="register-link">Register here</a></p>
     </div>
+
     <script>
-        document.querySelector("form").addEventListener("submit", function (e) {
-            e.preventDefault(); // Prevent default form submission
-    
-            let formData = new FormData(this);
-            let errorMsg = document.getElementById("login-error");
-    
-            fetch("login_process.php", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "success") {
-                    alert(data.message); // Show success message
-                    window.location.href = data.redirect; // Redirect to Dashboard/index.php
-                } else {
-                    errorMsg.textContent = data.message; // Show error message
-                }
-            })
-            .catch(error => console.error("Error:", error));
+        document.addEventListener("DOMContentLoaded", function () {
+            const loginForm = document.getElementById("loginForm");
+            const errorMsg = document.getElementById("login-error");
+
+            loginForm.addEventListener("submit", function (e) {
+                e.preventDefault(); // Prevent form from refreshing
+
+                let formData = new FormData(loginForm);
+
+                fetch("login_process.php", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        window.location.href = data.redirect; // Redirect to dashboard
+                    } else {
+                        errorMsg.textContent = data.message; // Show error message
+                        errorMsg.style.color = "red";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    errorMsg.textContent = "Something went wrong. Try again!";
+                    errorMsg.style.color = "red";
+                });
+            });
         });
     </script>
-    
 </body>
 </html>

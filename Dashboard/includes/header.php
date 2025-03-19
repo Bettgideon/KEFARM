@@ -3,6 +3,11 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Check if user is logged in
+if (!isset($_SESSION["user_name"])) {
+    $_SESSION["user_name"] = "Guest"; // Default for non-logged-in users
+}
 ?>
 
 <!DOCTYPE html>
@@ -38,21 +43,47 @@ if (session_status() === PHP_SESSION_NONE) {
             margin: 0;
             font-size: 22px;
             color: #28a745; /* Light Green */
+            text-align: center;
+            flex-grow: 1;
         }
 
-        /* Menu Toggle Button */
+        /* Welcome Message */
+        .welcome-message {
+            font-size: 16px;
+            margin-right: 20px;
+            color: #ffffff;
+        }
+
+        /* Responsive Toggle Menu */
         .menu-toggle {
+            display: none;
             font-size: 24px;
-            cursor: pointer;
             background: none;
             border: none;
             color: white;
-            display: none;
+            cursor: pointer;
+            margin-left: 15px;
         }
 
+        /* Media Query for Smaller Screens */
         @media (max-width: 768px) {
+            .header {
+                justify-content: space-between;
+                padding: 10px 15px;
+            }
+
+            .header h2 {
+                font-size: 18px; /* Adjust for smaller screens */
+                text-align: left;
+            }
+
             .menu-toggle {
-                display: block;
+                display: block; /* Show toggle button on mobile */
+            }
+
+            .welcome-message {
+                font-size: 14px; /* Smaller text for mobile */
+                margin-right: 10px;
             }
         }
     </style>
@@ -61,31 +92,21 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <!-- Header Section -->
 <header class="header">
-    <button class="menu-toggle" id="menuToggle">☰</button>
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i> <!-- Hamburger Icon -->
+    </button>
     <h2>KEFARM</h2>
+    <span class="welcome-message">Welcome, <?php echo htmlspecialchars($_SESSION["user_name"]); ?>!</span>
 </header>
 
 <!-- Include Sidebar -->
 <?php include 'sidebar.php'; ?>
 
-<!-- JavaScript for Sidebar Toggle -->
 <script>
-   document.addEventListener("DOMContentLoaded", function() {
-    const menuToggle = document.getElementById("menuToggle");
-    const sidebar = document.getElementById("sidebar");
-
-    if (menuToggle && sidebar) { // Ensure elements exist
-        menuToggle.addEventListener("click", function() {
-            sidebar.classList.toggle("active");
-
-            // Change button icon for open/close effect
-            if (sidebar.classList.contains("active")) {
-                menuToggle.innerHTML = "✖"; // Close icon
-            } else {
-                menuToggle.innerHTML = "☰"; // Menu icon
-            }
-        });
+    function toggleSidebar() {
+        document.querySelector(".sidebar").classList.toggle("active");
     }
-});
-
 </script>
+
+</body>
+</html>
