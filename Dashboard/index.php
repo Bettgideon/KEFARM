@@ -1,12 +1,14 @@
-<?php include 'includes/header.php'; ?> <!-- Include Header -->
-
 <?php
 session_start();
 if (!isset($_SESSION["user_id"])) {
     header("Location: ../login.html");
     exit();
 }
+
+include 'includes/sidebar.php';  // Include Sidebar
+include 'includes/header.php';   // Include Header
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -116,6 +118,7 @@ if (!isset($_SESSION["user_id"])) {
             font-size: 22px;
             font-weight: bold;
         }
+        
 
         /* Cards Layout */
         .cards {
@@ -168,6 +171,23 @@ if (!isset($_SESSION["user_id"])) {
                 left: 250px;
             }
         }
+        @media (min-width: 769px) {
+    .sidebar {
+        left: 0;
+    }
+    .mobile-menu {
+        display: none;
+    }
+    .main-content {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+    header {
+        width: calc(100% - 250px);
+        left: 250px;
+    }
+}
+
         .menu-item.active {
     background-color: #28a745; /* Change to your desired color */
     color: white;
@@ -181,23 +201,25 @@ if (!isset($_SESSION["user_id"])) {
 <div class="mobile-menu" onclick="toggleSidebar()">
     <i class="fas fa-bars"></i>
 </div>
-
-<!-- Sidebar -->
+<?php
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
 <div class="sidebar" id="sidebar">
     <h2>KEFARM</h2>
     <ul>
-        <li><a href="index.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="farm_management.php"><i class="fas fa-seedling"></i> Farm Management</a></li>
-        <li><a href="orders_sales.php"><i class="fas fa-shopping-cart"></i> Orders & Sales</a></li>
-        <li><a href="inventory.php"><i class="fas fa-warehouse"></i> Inventory</a></li>
-        <li><a href="reports.php"><i class="fas fa-chart-line"></i> Reports</a></li>
-        <li><a href="users.php"><i class="fas fa-users"></i> User Management</a></li>
-        <li><a href="settings.php"><i class="fas fa-cog"></i> Settings</a></li>
+        <li><a href="index.php" class="<?= ($current_page == 'index.php') ? 'active' : '' ?>"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="farm_management.php" class="<?= ($current_page == 'farm_management.php') ? 'active' : '' ?>"><i class="fas fa-seedling"></i> Farm Management</a></li>
+        <li><a href="orders_sales.php" class="<?= ($current_page == 'orders_sales.php') ? 'active' : '' ?>"><i class="fas fa-shopping-cart"></i> Orders & Sales</a></li>
+        <li><a href="inventory.php" class="<?= ($current_page == 'inventory.php') ? 'active' : '' ?>"><i class="fas fa-warehouse"></i> Inventory</a></li>
+        <li><a href="reports.php" class="<?= ($current_page == 'reports.php') ? 'active' : '' ?>"><i class="fas fa-chart-line"></i> Reports</a></li>
+        <li><a href="users.php" class="<?= ($current_page == 'users.php') ? 'active' : '' ?>"><i class="fas fa-users"></i> User Management</a></li>
+        <li><a href="settings.php" class="<?= ($current_page == 'settings.php') ? 'active' : '' ?>"><i class="fas fa-cog"></i> Settings</a></li>
     </ul>
     <div class="logout">
         <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 </div>
+
 
 <!-- Main Content -->
 <div class="main-content">
@@ -209,17 +231,9 @@ if (!isset($_SESSION["user_id"])) {
         <div class="card"><i class="fas fa-chart-line"></i><h3>Ksh 50K+</h3><p>Revenue</p></div>
     </div>
 </div>
-
 <script>
     function toggleSidebar() {
-        let sidebar = document.getElementById("sidebar");
-        sidebar.classList.toggle("active");
-
-        if (sidebar.classList.contains("active")) {
-            sidebar.style.left = "0";
-        } else {
-            sidebar.style.left = "-250px";
-        }
+        document.getElementById("sidebar").classList.toggle("active");
     }
 
     // Close sidebar when clicking outside (only for mobile)
@@ -229,10 +243,10 @@ if (!isset($_SESSION["user_id"])) {
 
         if (!sidebar.contains(event.target) && !menuButton.contains(event.target) && window.innerWidth <= 768) {
             sidebar.classList.remove("active");
-            sidebar.style.left = "-250px";
         }
     });
 </script>
+
 
 </body>
 </html>

@@ -105,7 +105,7 @@ include '../db_connect.php';
         }
 
         header {
-            background: #28a745;
+            background: #1e5631;
             padding: 15px;
             color: white;
             text-align: center;
@@ -222,16 +222,19 @@ include '../db_connect.php';
 <body>
 
 <!-- Sidebar -->
+<?php
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
 <div class="sidebar" id="sidebar">
     <h2>KEFARM</h2>
     <ul>
-        <li><a href="index.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="farm_management.php"><i class="fas fa-seedling"></i> Farm Management</a></li>
-        <li><a href="orders_sales.php"><i class="fas fa-shopping-cart"></i> Orders & Sales</a></li>
-        <li><a href="inventory.php"><i class="fas fa-warehouse"></i> Inventory</a></li>
-        <li><a href="reports.php"><i class="fas fa-chart-line"></i> Reports</a></li>
-        <li><a href="users.php"><i class="fas fa-users"></i> User Management</a></li>
-        <li><a href="settings.php"><i class="fas fa-cog"></i> Settings</a></li>
+        <li><a href="index.php" class="<?= ($current_page == 'index.php') ? 'active' : '' ?>"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="farm_management.php" class="<?= ($current_page == 'farm_management.php') ? 'active' : '' ?>"><i class="fas fa-seedling"></i> Farm Management</a></li>
+        <li><a href="orders_sales.php" class="<?= ($current_page == 'orders_sales.php') ? 'active' : '' ?>"><i class="fas fa-shopping-cart"></i> Orders & Sales</a></li>
+        <li><a href="inventory.php" class="<?= ($current_page == 'inventory.php') ? 'active' : '' ?>"><i class="fas fa-warehouse"></i> Inventory</a></li>
+        <li><a href="reports.php" class="<?= ($current_page == 'reports.php') ? 'active' : '' ?>"><i class="fas fa-chart-line"></i> Reports</a></li>
+        <li><a href="users.php" class="<?= ($current_page == 'users.php') ? 'active' : '' ?>"><i class="fas fa-users"></i> User Management</a></li>
+        <li><a href="settings.php" class="<?= ($current_page == 'settings.php') ? 'active' : '' ?>"><i class="fas fa-cog"></i> Settings</a></li>
     </ul>
     <div class="logout">
         <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -272,7 +275,8 @@ include '../db_connect.php';
                             <td>Ksh {$row['total_price']}</td>
                             <td><span class='status {$row['status']}'>{$row['status']}</span></td>
                             <td>
-                                <button class='edit-btn' onclick='editOrder({$row['id']})'>Edit</button>
+                                <button class='edit-btn' onclick='openEditModal({$row['id']})'>Edit</button>
+
                                 <button class='delete-btn' onclick='deleteOrder({$row['id']})'>Delete</button>
                             </td>
                         </tr>";
@@ -309,6 +313,7 @@ include '../db_connect.php';
             </select>
 
             <button type="submit">Add Order</button>
+            
         </form>
     </div>
 </div>
@@ -350,6 +355,78 @@ function deleteOrder(orderId) {
         .catch(error => console.error('Error:', error));
     }
 }
+</script>
+<!-- Edit Order Modal -->
+<div class="modal" id="editOrderModal">
+    <div class="modal-content">
+        <span class="close" onclick="closeEditModal()">&times;</span>
+        <h3>Edit Order</h3>
+        <form id="editOrderForm">
+            <input type="hidden" name="id" id="edit_order_id">
+
+            <label for="edit_customer_name">Customer Name</label>
+            <input type="text" name="customer_name" id="edit_customer_name" required>
+
+            <label for="edit_product_name">Item</label>
+            <input type="text" name="product_name" id="edit_product_name" required>
+
+            <label for="edit_quantity">Quantity</label>
+            <input type="number" name="quantity" id="edit_quantity" required>
+
+            <label for="edit_total_price">Total Price</label>
+            <input type="number" name="total_price" id="edit_total_price" required>
+
+            <label for="edit_status">Status</label>
+            <select name="status" id="edit_status">
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+            </select>
+
+            <button type="submit">Update Order</button>
+        </form>
+    </div>
+</div>
+<script>
+function openEditModal(orderId) {
+    // Open the modal
+    document.getElementById("editOrderModal").style.display = "block";
+
+    // Fetch order details using AJAX
+    fetch("get_order.php?id=" + orderId)
+        .then(response => response.json())
+        .then(data => {
+            // Populate the form with order data
+            document.getElementById("edit_order_id").value = data.id;
+            document.getElementById("edit_customer_name").value = data.customer_name;
+            document.getElementById("edit_product_name").value = data.product_name;
+            document.getElementById("edit_quantity").value = data.quantity;
+            document.getElementById("edit_total_price").value = data.total_price;
+            document.getElementById("edit_status").value = data.status;
+        })
+        .catch(error => console.error("Error fetching order:", error));
+}
+
+function closeEditModal() {
+    document.getElementById("editOrderModal").style.display = "none";
+}
+
+// Handle form submission via AJAX
+document.getElementById("editOrderForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent normal form submission
+
+    let formData = new FormData(this);
+
+    fetch("update_order.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+        location.reload(); // Refresh page to reflect changes
+    })
+    .catch(error => console.error("Error updating order:", error));
+});
 </script>
 
 </body>

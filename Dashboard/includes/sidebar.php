@@ -1,56 +1,39 @@
-
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
+    <h2>KEFARM</h2>
     <ul>
-        <li><a href="index.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-        <li><a href="farm_management.php"><i class="fas fa-tractor"></i> Farm Management</a></li>
+        <li><a href="index.php"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="farm_management.php"><i class="fas fa-seedling"></i> Farm Management</a></li>
         <li><a href="orders_sales.php"><i class="fas fa-shopping-cart"></i> Orders & Sales</a></li>
         <li><a href="inventory.php"><i class="fas fa-warehouse"></i> Inventory</a></li>
-
         <li><a href="reports.php"><i class="fas fa-chart-line"></i> Reports</a></li>
         <li><a href="users.php"><i class="fas fa-users"></i> User Management</a></li>
         <li><a href="settings.php"><i class="fas fa-cog"></i> Settings</a></li>
-        <li><a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
+    <div class="logout">
+        <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
 </div>
 
-<!-- Page Content Wrapper -->
-<div class="content" id="content">
-    <!-- Your page content goes here -->
-</div>
-
+<!-- Sidebar Styles -->
 <style>
-   /* Header Styling */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px; /* Fixed height */
-    background-color: #1a3e1f;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    z-index: 3000; /* Ensure it's above sidebar */
-}
-
-/* Sidebar Styling */
+/* Sidebar */
 .sidebar {
     position: fixed;
-    left: -250px; /* Initially hidden on mobile */
-    top: 60px; /* Adjusted to start below the header */
+    left: -260px; /* Initially hidden */
+    top: 0;
     width: 250px;
-    height: calc(100vh - 60px); /* Prevent overlap with header */
+    height: 100vh;
     background-color: #1a3e1f;
     padding-top: 20px;
-    transition: left 0.3s ease-in-out;
-    z-index: 2000; /* Below header */
+    transition: transform 0.3s ease-in-out;
+    z-index: 9999; /* Keep above other elements */
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar.active {
-    left: 0; /* Slide in when active */
+    left: 0; /* Show sidebar */
 }
 
 /* Sidebar Links */
@@ -86,7 +69,6 @@
 
 /* Menu Toggle Button */
 .menu-toggle {
-    display: block;
     position: fixed;
     top: 15px;
     left: 15px;
@@ -97,20 +79,12 @@
     border: none;
     font-size: 24px;
     cursor: pointer;
-    z-index: 3000;
+    z-index: 10000; /* Ensure above everything */
 }
 
-/* Page Content Wrapper */
-.content {
-    margin-left: 0;
-    transition: margin-left 0.3s ease-in-out;
-    padding: 20px;
-    margin-top: 60px; /* Prevent overlap with header */
-}
-
-/* Adjust when sidebar is active */
+/* Fix Button Overlap */
 .sidebar.active + .content {
-    margin-left: 250px;
+    pointer-events: auto; /* Allow button clicks */
 }
 
 /* Desktop View */
@@ -118,28 +92,26 @@
     .menu-toggle {
         display: none;
     }
-
     .sidebar {
-        left: 0;
-    }
-
-    .content {
-        margin-left: 250px;
+        left: 0; /* Sidebar always visible on desktop */
     }
 }
-
 </style>
 
-<!-- JavaScript for Sidebar Toggle -->
+<!-- Sidebar Toggle Script -->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const menuToggle = document.getElementById("menuToggle");
-        const sidebar = document.getElementById("sidebar");
+    function toggleSidebar() {
+        let sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("active");
+    }
 
-        if (menuToggle && sidebar) {
-            menuToggle.addEventListener("click", function() {
-                sidebar.classList.toggle("active");
-            });
+    // Prevent sidebar from blocking buttons
+    document.addEventListener("click", function (event) {
+        let sidebar = document.getElementById("sidebar");
+        let menuButton = document.querySelector(".menu-toggle");
+
+        if (!sidebar.contains(event.target) && !menuButton.contains(event.target) && window.innerWidth <= 768) {
+            sidebar.classList.remove("active");
         }
     });
 </script>

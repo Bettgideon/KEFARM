@@ -1,6 +1,14 @@
-<?php include 'includes/header.php'; ?> <!-- Include Header -->
-<?php include 'includes/sidebar.php'; ?> <!-- Include Sidebar -->
+<?php
+session_start();
+if (!isset($_SESSION["user_id"])) {
+    header("Location: ../login.html");
+    exit();
+}
 
+?>
+
+<?php include 'includes/sidebar.php'; ?> <!-- Include Sidebar -->
+<?php include 'includes/header.php'; ?> <!-- Include Header -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -97,7 +105,7 @@ body {
 
 /* Header */
 header {
-    background: #28a745;
+    background: #1a3e1f;
     padding: 15px;
     color: white;
     text-align: center;
@@ -226,19 +234,10 @@ th {
     background: #003300;
 }
 
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    top: 100;
-    left: 100;
-    width: 50%;
-    height: 0%;
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-}
+/* Modal Overlay */
 
+
+/* Modal Content */
 .modal-content {
     background: #ffffff;
     border-radius: 10px;
@@ -247,7 +246,21 @@ th {
     max-width: 500px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+/* Ensure modal is centered on small screens */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%; /* Reduce width for smaller screens */
+    }
+}
+
+
+
 
 .modal h3 {
     background: #1e5631;
@@ -320,16 +333,19 @@ th {
 ?>
 
 <!-- Sidebar -->
+<?php
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
 <div class="sidebar" id="sidebar">
     <h2>KEFARM</h2>
     <ul>
-        <li><a href="index.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="farm_management.php"><i class="fas fa-seedling"></i> Farm Management</a></li>
-        <li><a href="orders_sales.php"><i class="fas fa-shopping-cart"></i> Orders & Sales</a></li>
-        <li><a href="inventory.php"><i class="fas fa-warehouse"></i> Inventory</a></li>
-        <li><a href="reports.php"><i class="fas fa-chart-line"></i> Reports</a></li>
-        <li><a href="users.php"><i class="fas fa-users"></i> User Management</a></li>
-        <li><a href="settings.php"><i class="fas fa-cog"></i> Settings</a></li>
+        <li><a href="index.php" class="<?= ($current_page == 'index.php') ? 'active' : '' ?>"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="farm_management.php" class="<?= ($current_page == 'farm_management.php') ? 'active' : '' ?>"><i class="fas fa-seedling"></i> Farm Management</a></li>
+        <li><a href="orders_sales.php" class="<?= ($current_page == 'orders_sales.php') ? 'active' : '' ?>"><i class="fas fa-shopping-cart"></i> Orders & Sales</a></li>
+        <li><a href="inventory.php" class="<?= ($current_page == 'inventory.php') ? 'active' : '' ?>"><i class="fas fa-warehouse"></i> Inventory</a></li>
+        <li><a href="reports.php" class="<?= ($current_page == 'reports.php') ? 'active' : '' ?>"><i class="fas fa-chart-line"></i> Reports</a></li>
+        <li><a href="users.php" class="<?= ($current_page == 'users.php') ? 'active' : '' ?>"><i class="fas fa-users"></i> User Management</a></li>
+        <li><a href="settings.php" class="<?= ($current_page == 'settings.php') ? 'active' : '' ?>"><i class="fas fa-cog"></i> Settings</a></li>
     </ul>
     <div class="logout">
         <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -429,7 +445,8 @@ th {
     <script>
         // Open Add Item Modal
 function openAddModal() {
-    document.getElementById("addItemModal").style.display = "flex";
+    let modal = document.getElementById("addItemModal");
+    modal.style.display = "flex"; // Ensures it uses flexbox for centering
 }
 
 // Close Add Item Modal
@@ -448,7 +465,9 @@ function openEditModal(id) {
             document.getElementById("edit_category").value = data.category;
             document.getElementById("edit_quantity").value = data.quantity;
             document.getElementById("edit_unit_price").value = data.unit_price;
-            document.getElementById("editModal").style.display = "flex";
+            
+            let modal = document.getElementById("editModal");
+            modal.style.display = "flex"; // Ensures modal appears at center
         } else {
             alert("Failed to fetch item data.");
         }

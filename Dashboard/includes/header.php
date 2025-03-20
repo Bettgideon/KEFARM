@@ -42,7 +42,7 @@ if (!isset($_SESSION["user_name"])) {
         .header h2 {
             margin: 0;
             font-size: 22px;
-            color: #28a745; /* Light Green */
+            color: #1a3e1f; /* Light Green */
             text-align: center;
             flex-grow: 1;
         }
@@ -63,6 +63,11 @@ if (!isset($_SESSION["user_name"])) {
             color: white;
             cursor: pointer;
             margin-left: 15px;
+        }
+
+        /* Ensure content doesn't overlap with the fixed header */
+        body {
+            margin-top: 70px; /* Adjust based on header height */
         }
 
         /* Media Query for Smaller Screens */
@@ -99,12 +104,12 @@ if (!isset($_SESSION["user_name"])) {
     <span class="welcome-message">Welcome, <?php echo htmlspecialchars($_SESSION["user_name"]); ?>!</span>
 </header>
 
-<!-- Include Sidebar -->
-<?php include 'sidebar.php'; ?>
-
 <script>
     function toggleSidebar() {
-        document.querySelector(".sidebar").classList.toggle("active");
+        var sidebar = document.querySelector(".sidebar");
+        if (sidebar) {
+            sidebar.classList.toggle("active");
+        }
     }
 </script>
 

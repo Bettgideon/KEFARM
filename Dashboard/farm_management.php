@@ -1,5 +1,4 @@
-<?php include 'includes/sidebar.php'; ?> <!-- Include Sidebar -->
-<?php include 'includes/header.php'; ?> <!-- Include Header -->
+
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
@@ -7,6 +6,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 ?>
+<?php include 'includes/sidebar.php'; ?> <!-- Include Sidebar -->
+<?php include 'includes/header.php'; ?> <!-- Include Header -->
 <style>
     
     <style>
@@ -159,11 +160,7 @@ if (!isset($_SESSION['user_id'])) {
                 left: 250px;
             }
         }
-        .menu-item.active {
-    background-color: #28a745; /* Change to your desired color */
-    color: white;
-}
-
+        
     </style>
 </style>
 
@@ -178,16 +175,19 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 <body>
 <!-- Sidebar -->
+<?php
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
 <div class="sidebar" id="sidebar">
     <h2>KEFARM</h2>
     <ul>
-        <li><a href="index.php" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="farm_management.php"><i class="fas fa-seedling"></i> Farm Management</a></li>
-        <li><a href="orders_sales.php"><i class="fas fa-shopping-cart"></i> Orders & Sales</a></li>
-        <li><a href="inventory.php"><i class="fas fa-warehouse"></i> Inventory</a></li>
-        <li><a href="reports.php"><i class="fas fa-chart-line"></i> Reports</a></li>
-        <li><a href="users.php"><i class="fas fa-users"></i> User Management</a></li>
-        <li><a href="settings.php"><i class="fas fa-cog"></i> Settings</a></li>
+        <li><a href="index.php" class="<?= ($current_page == 'index.php') ? 'active' : '' ?>"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="farm_management.php" class="<?= ($current_page == 'farm_management.php') ? 'active' : '' ?>"><i class="fas fa-seedling"></i> Farm Management</a></li>
+        <li><a href="orders_sales.php" class="<?= ($current_page == 'orders_sales.php') ? 'active' : '' ?>"><i class="fas fa-shopping-cart"></i> Orders & Sales</a></li>
+        <li><a href="inventory.php" class="<?= ($current_page == 'inventory.php') ? 'active' : '' ?>"><i class="fas fa-warehouse"></i> Inventory</a></li>
+        <li><a href="reports.php" class="<?= ($current_page == 'reports.php') ? 'active' : '' ?>"><i class="fas fa-chart-line"></i> Reports</a></li>
+        <li><a href="users.php" class="<?= ($current_page == 'users.php') ? 'active' : '' ?>"><i class="fas fa-users"></i> User Management</a></li>
+        <li><a href="settings.php" class="<?= ($current_page == 'settings.php') ? 'active' : '' ?>"><i class="fas fa-cog"></i> Settings</a></li>
     </ul>
     <div class="logout">
         <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
