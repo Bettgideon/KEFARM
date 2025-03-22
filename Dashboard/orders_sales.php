@@ -1,6 +1,3 @@
-
-<?php include 'includes/sidebar.php'; ?> <!-- Include Sidebar -->
-<?php include 'includes/header.php'; ?> <!-- Include Header -->
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
@@ -9,7 +6,8 @@ if (!isset($_SESSION['user_id'])) {
 }
 include '../db_connect.php';
 ?>
-
+<?php include 'includes/sidebar.php'; ?> <!-- Include Sidebar -->
+<?php include 'includes/header.php'; ?> <!-- Include Header -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,134 +16,214 @@ include '../db_connect.php';
     <title>Orders & Sales - KEFARM</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <styl>
-        <style>
-    
     <style>
-        /* General Styles */
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            background-color: #f4f4f4;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            width: 250px;
-            background: #1a3e1f;
-            color: white;
-            position: fixed;
-            top: 0;
-            left: -250px;
-            height: 100vh;
-            overflow-y: auto;
-            padding-top: 20px;
-            transition: left 0.3s ease-in-out;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .sidebar.active {
-            left: 0;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            color: #28a745;
-            margin-bottom: 20px;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li a {
-            text-decoration: none;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-            padding: 12px;
-        }
-
-        .sidebar ul li a:hover, 
-        .sidebar ul li a.active {
-            background: #28a745;
-            border-radius: 5px;
-        }
-
-        .logout {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .logout a {
-            background: red;
-            color: white;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-
-        .logout a:hover {
-            background: darkred;
-        }
-
-        /* Main Content */
+        /* Ensure main content is pushed down to avoid overlapping the included header */
         .main-content {
-            flex-grow: 1;
-            padding: 80px 20px 20px;
-            width: 100%;
-            transition: margin-left 0.3s ease-in-out;
+            margin-top: 80px;
+            padding: 20px;
         }
 
-        header {
-            background: #1e5631;
-            padding: 15px;
-            color: white;
-            text-align: center;
-            position: fixed;
+        /* Table Styles */
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        table {
             width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            height: 60px;
-            line-height: 30px;
-            font-size: 22px;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: rgb(6, 117, 21);
             font-weight: bold;
         }
 
-        /* Cards Layout */
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+        /* Modal Overlay */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 450px;
+            background: #ffffff;
             padding: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
             text-align: center;
         }
 
-        .card i {
-            font-size: 30px;
-            color: #28a745;
+        /* Dark overlay background */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
         }
 
-        /* Mobile Sidebar */
+        /* Modal Title */
+        .modal h3 {
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        /* Modal Inputs */
+        .modal input, .modal textarea {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #28a745;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        /* Modal Buttons */
+        .modal button {
+            width: 45%;
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* Add & Update Buttons */
+        .modal button:first-child {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .modal button:first-child:hover {
+            background-color: #1e7e34;
+        }
+
+        /* Cancel Buttons */
+        .modal button:last-child {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .modal button:last-child:hover {
+            background-color: #b52b3a;
+        }
+
+        /* Close Button */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            color: red;
+            cursor: pointer;
+        }
+
+        /* General Button Styles */
+        button {
+            padding: 10px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+
+        /* Add New Button */
+        button.add-new {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button.add-new:hover {
+            background-color: #1e7e34;
+        }
+
+        /* Edit Button */
+        button.edit-btn {
+            background-color: #ffc107;
+            color: #212529;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        button.edit-btn:hover {
+            background-color: #e0a800;
+        }
+
+        /* Delete Button */
+        button.delete-btn {
+            background-color: #dc3545;
+            color: white;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        button.delete-btn:hover {
+            background-color: #b52b3a;
+        }
+
+        /* Table Actions - Keep Buttons Inline */
+        td button {
+            margin: 3px;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            button {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+        }
+
+        /* Ensure main content is pushed down to avoid overlapping the included header */
+        .main-content {
+            margin-top: 80px; /* Adjust if needed to move content slightly below the header */
+            padding: 20px;
+        }
+
+        .edit_button {
+            background: red;
+        }
+
+        /* Ensure the header inside includes/header.php remains fixed */
+        header {
+            position: relative; /* Change from fixed to relative to avoid covering content */
+            width: 100%;
+            background-color: #fff; /* Maintain existing design */
+            padding: 15px 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
         .mobile-menu {
             display: block;
             position: fixed;
-            top: 15px;
+            top: 70px; /* Move it slightly below the header */
             left: 15px;
             background: #28a745;
             color: white;
@@ -155,91 +233,110 @@ include '../db_connect.php';
             z-index: 1001;
         }
 
-        @media (min-width: 769px) {
-            .sidebar {
-                left: 0;
-            }
-            .mobile-menu {
-                display: none;
-            }
+        /* Mobile View Adjustments */
+        @media screen and (max-width: 768px) {
             .main-content {
-                margin-left: 250px;
-                width: calc(100% - 250px);
-            }
-            header {
-                width: calc(100% - 250px);
-                left: 250px;
+                margin-top: 90px; /* Increase margin slightly for smaller screens */
+                padding: 15px;
             }
         }
-    
 
-        /* KEFARM Color Theme */
-        .modal-content {
-            background: #e6f4ea; /* Light green background */
-            border-radius: 10px;
+        /* Modal Overlay */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 450px;
+            background: #ffffff; /* White background */
             padding: 20px;
-            width: 50%;
-            max-width: 500px;
-            margin: auto;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .modal h3 {
-            background: #1e5631; /* Dark green header */
-            color: white;
-            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
             text-align: center;
-            border-radius: 5px 5px 0 0;
         }
-        .modal input, .modal select {
+
+        /* Dark overlay background */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 8px;
-            margin: 5px 0;
-            border: 1px solid #1e5631;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Modal Title */
+        .modal h3 {
+            color: #28a745; /* KEFARM Green */
+            margin-bottom: 15px;
+        }
+
+        /* Modal Inputs */
+        .modal input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #28a745;
             border-radius: 5px;
             outline: none;
-            background: #f0fff4; /* Very light green */
         }
+
+        /* Modal Buttons */
         .modal button {
-            background: #1e5631;
-            color: white;
+            width: 45%;
             padding: 10px;
+            margin: 5px;
             border: none;
             border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
+            transition: 0.3s;
         }
-        .modal button:hover {
-            background: #145a32;
-        }
-        .menu-item.active {
-    background-color: #28a745; /* Change to your desired color */
-    color: white;
-}
 
+        /* Add & Update Buttons */
+        .modal button:first-child {
+            background-color: #28a745; /* KEFARM Green */
+            color: white;
+        }
+
+        .modal button:first-child:hover {
+            background-color: #1e7e34; /* Dark Green */
+        }
+
+        /* Cancel Buttons */
+        .modal button:last-child {
+            background-color: #dc3545; /* Red for cancel */
+            color: white;
+        }
+
+        .modal button:last-child:hover {
+            background-color: #b52b3a;
+        }
+
+        /* Close Button */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            color: red;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 480px) {
+            .modal {
+                width: 95%;
+            }
+        }
     </style>
 </head>
 <body>
-
-<!-- Sidebar -->
-<?php
-$current_page = basename($_SERVER['PHP_SELF']);
-?>
-<div class="sidebar" id="sidebar">
-    <h2>KEFARM</h2>
-    <ul>
-        <li><a href="index.php" class="<?= ($current_page == 'index.php') ? 'active' : '' ?>"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="farm_management.php" class="<?= ($current_page == 'farm_management.php') ? 'active' : '' ?>"><i class="fas fa-seedling"></i> Farm Management</a></li>
-        <li><a href="orders_sales.php" class="<?= ($current_page == 'orders_sales.php') ? 'active' : '' ?>"><i class="fas fa-shopping-cart"></i> Orders & Sales</a></li>
-        <li><a href="inventory.php" class="<?= ($current_page == 'inventory.php') ? 'active' : '' ?>"><i class="fas fa-warehouse"></i> Inventory</a></li>
-        <li><a href="reports.php" class="<?= ($current_page == 'reports.php') ? 'active' : '' ?>"><i class="fas fa-chart-line"></i> Reports</a></li>
-        <li><a href="users.php" class="<?= ($current_page == 'users.php') ? 'active' : '' ?>"><i class="fas fa-users"></i> User Management</a></li>
-        <li><a href="settings.php" class="<?= ($current_page == 'settings.php') ? 'active' : '' ?>"><i class="fas fa-cog"></i> Settings</a></li>
-    </ul>
-    <div class="logout">
-        <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
-</div>
 
 <!-- Main Content -->
 <div class="main-content">
@@ -276,7 +373,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                             <td><span class='status {$row['status']}'>{$row['status']}</span></td>
                             <td>
                                 <button class='edit-btn' onclick='openEditModal({$row['id']})'>Edit</button>
-
                                 <button class='delete-btn' onclick='deleteOrder({$row['id']})'>Delete</button>
                             </td>
                         </tr>";
@@ -313,49 +409,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </select>
 
             <button type="submit">Add Order</button>
-            
+            <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
         </form>
     </div>
 </div>
 
-<script>
-function openModal() {
-    document.getElementById("orderModal").style.display = "block";
-}
-function closeModal() {
-    document.getElementById("orderModal").style.display = "none";
-}
-
-function filterTable() {
-    let search = document.getElementById("search").value.toLowerCase();
-    let rows = document.querySelectorAll("#orderTable tr");
-
-    rows.forEach(row => {
-        let text = row.innerText.toLowerCase();
-        row.style.display = text.includes(search) ? "" : "none";
-    });
-}
-
-function editOrder(orderId) {
-    window.location.href = 'edit_order.php?id=' + orderId;
-}
-
-function deleteOrder(orderId) {
-    if (confirm("Are you sure you want to delete this order?")) {
-        fetch('delete_order.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'id=' + orderId
-        })
-        .then(response => response.text())
-        .then(data => {
-            alert(data);
-            location.reload();
-        })
-        .catch(error => console.error('Error:', error));
-    }
-}
-</script>
 <!-- Edit Order Modal -->
 <div class="modal" id="editOrderModal">
     <div class="modal-content">
@@ -383,10 +441,30 @@ function deleteOrder(orderId) {
             </select>
 
             <button type="submit">Update Order</button>
+            <button type="button" class="cancel-btn" onclick="closeEditModal()">Cancel</button>
         </form>
     </div>
 </div>
+
 <script>
+function openModal() {
+    document.getElementById("orderModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("orderModal").style.display = "none";
+}
+
+function filterTable() {
+    let search = document.getElementById("search").value.toLowerCase();
+    let rows = document.querySelectorAll("#orderTable tr");
+
+    rows.forEach(row => {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(search) ? "" : "none";
+    });
+}
+
 function openEditModal(orderId) {
     // Open the modal
     document.getElementById("editOrderModal").style.display = "block";
@@ -427,6 +505,22 @@ document.getElementById("editOrderForm").addEventListener("submit", function(eve
     })
     .catch(error => console.error("Error updating order:", error));
 });
+
+function deleteOrder(orderId) {
+    if (confirm("Are you sure you want to delete this order?")) {
+        fetch('delete_order.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'id=' + orderId
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+            location.reload();
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
 </script>
 
 </body>

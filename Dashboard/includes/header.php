@@ -1,12 +1,32 @@
 <?php
-// Start session (if not already started)
+// header.php
+
+// Prevent caching to ensure the greeting updates dynamically
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Cache-Control: no-cache, must-revalidate");
+header("Pragma: no-cache");
+
+// Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Check if user is logged in
+// Set the correct timezone
+date_default_timezone_set("Africa/Nairobi");
+
+// Set default user name if not logged in
 if (!isset($_SESSION["user_name"])) {
-    $_SESSION["user_name"] = "Guest"; // Default for non-logged-in users
+    $_SESSION["user_name"] = "Guest";
+}
+
+// Dynamic greeting based on time
+$hour = date("H");
+if ($hour < 12) {
+    $greeting = "Good morning";
+} elseif ($hour < 16) {
+    $greeting = "Good afternoon";
+} else {
+    $greeting = "Good evening";
 }
 ?>
 
@@ -16,79 +36,55 @@ if (!isset($_SESSION["user_name"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KEFARM</title>
-    
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="styles.css"> <!-- Ensure you have a styles.css file -->
-    
     <style>
         /* Header Styles */
         .header {
-            background-color: #1a3e1f; /* Dark Green */
-            color: white;
-            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background-color: #1a3e1f; /* Dark green */
+            color: white;
+            padding: 15px 20px;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
+            width: 100%; /* Ensure it covers the full width */
             z-index: 1000;
         }
 
         .header h2 {
-            margin: 0;
-            font-size: 22px;
-            color: #1a3e1f; /* Light Green */
-            text-align: center;
             flex-grow: 1;
+            text-align: center;
+            font-size: 22px;
+            color: #ffffff;
+            margin: 0;
         }
 
-        /* Welcome Message */
+        /* Ensure greeting message is always visible */
         .welcome-message {
             font-size: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             margin-right: 20px;
-            color: #ffffff;
+            flex-shrink: 0;
         }
 
-        /* Responsive Toggle Menu */
-        .menu-toggle {
-            display: none;
-            font-size: 24px;
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            margin-left: 15px;
-        }
-
-        /* Ensure content doesn't overlap with the fixed header */
-        body {
-            margin-top: 70px; /* Adjust based on header height */
-        }
-
-        /* Media Query for Smaller Screens */
+        /* Responsive Adjustments */
         @media (max-width: 768px) {
             .header {
-                justify-content: space-between;
                 padding: 10px 15px;
             }
 
             .header h2 {
-                font-size: 18px; /* Adjust for smaller screens */
-                text-align: left;
-            }
-
-            .menu-toggle {
-                display: block; /* Show toggle button on mobile */
+                font-size: 18px;
             }
 
             .welcome-message {
-                font-size: 14px; /* Smaller text for mobile */
-                margin-right: 10px;
+                font-size: 14px;
+                max-width: 120px;
             }
         }
     </style>
@@ -97,21 +93,9 @@ if (!isset($_SESSION["user_name"])) {
 
 <!-- Header Section -->
 <header class="header">
-    <button class="menu-toggle" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i> <!-- Hamburger Icon -->
-    </button>
     <h2>KEFARM</h2>
-    <span class="welcome-message">Welcome, <?php echo htmlspecialchars($_SESSION["user_name"]); ?>!</span>
+    <span class="welcome-message"><?php echo $greeting; ?>, <?php echo htmlspecialchars($_SESSION["user_name"]); ?>!</span>
 </header>
-
-<script>
-    function toggleSidebar() {
-        var sidebar = document.querySelector(".sidebar");
-        if (sidebar) {
-            sidebar.classList.toggle("active");
-        }
-    }
-</script>
 
 </body>
 </html>

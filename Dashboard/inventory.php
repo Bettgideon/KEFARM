@@ -18,113 +18,209 @@ if (!isset($_SESSION["user_id"])) {
     <title>Inventory Management - KEFARM</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
     <style>
-        /* General Styles */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f4f4f4;
-}
-
-/* Sidebar Styles */
-.sidebar {
-    width: 250px;
-    background: #1a3e1f;
-    color: white;
-    position: fixed;
-    top: 0;
-    left: -250px;
-    height: 100vh;
-    overflow-y: auto;
-    padding-top: 20px;
-    transition: left 0.3s ease-in-out;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
-}
-
-.sidebar.active {
-    left: 0;
-}
-
-.sidebar h2 {
-    text-align: center;
-    color: #28a745;
-    margin-bottom: 20px;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar ul li a {
-    text-decoration: none;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 16px;
-    padding: 12px;
-}
-
-.sidebar ul li a:hover, 
-.sidebar ul li a.active {
-    background: #28a745;
-    border-radius: 5px;
-}
-
-.logout {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    text-align: center;
-}
-
-.logout a {
-    background: red;
-    color: white;
-    display: block;
-    padding: 10px;
-    border-radius: 5px;
-    text-decoration: none;
-}
-
-.logout a:hover {
-    background: darkred;
-}
-
-/* Main Content */
+        /* Ensure main content is pushed down to avoid overlapping the included header */
 .main-content {
-    flex-grow: 1;
-    padding: 80px 20px 20px;
-    width: 100%;
-    transition: margin-left 0.3s ease-in-out;
+    margin-top: 80px;
+    padding: 20px;
 }
 
-/* Header */
-header {
-    background: #1a3e1f;
-    padding: 15px;
-    color: white;
-    text-align: center;
-    position: fixed;
+/* Table Styles */
+.table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+table {
     width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    height: 60px;
-    line-height: 30px;
-    font-size: 22px;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color:rgb(6, 117, 21);
     font-weight: bold;
 }
 
-/* Mobile Sidebar */
+/* Modal Overlay */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 450px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    text-align: center;
+}
+
+/* Dark overlay background */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Modal Title */
+.modal h3 {
+    color: #28a745;
+    margin-bottom: 15px;
+}
+
+/* Modal Inputs */
+.modal input, .modal textarea {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #28a745;
+    border-radius: 5px;
+    outline: none;
+}
+
+/* Modal Buttons */
+.modal button {
+    width: 45%;
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Add & Update Buttons */
+.modal button:first-child {
+    background-color: #28a745;
+    color: white;
+}
+
+.modal button:first-child:hover {
+    background-color: #1e7e34;
+}
+
+/* Cancel Buttons */
+.modal button:last-child {
+    background-color: #dc3545;
+    color: white;
+}
+
+.modal button:last-child:hover {
+    background-color: #b52b3a;
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    color: red;
+    cursor: pointer;
+}
+
+/* General Button Styles */
+button {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+/* Add New Button */
+button.add-new {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button.add-new:hover {
+    background-color: #1e7e34;
+}
+
+/* Edit Button */
+button.edit-btn {
+    background-color: #ffc107;
+    color: #212529;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+button.edit-btn:hover {
+    background-color: #e0a800;
+}
+
+/* Delete Button */
+button.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+button.delete-btn:hover {
+    background-color: #b52b3a;
+}
+
+/* Table Actions - Keep Buttons Inline */
+td button {
+    margin: 3px;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    button {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+}
+        /* Ensure main content is pushed down to avoid overlapping the included header */
+.main-content {
+    margin-top: 80px; /* Adjust if needed to move content slightly below the header */
+    padding: 20px;
+}
+
+/* Ensure the header inside includes/header.php remains fixed */
+header {
+    position: relative; /* Change from fixed to relative to avoid covering content */
+    width: 100%;
+    background-color: #fff; /* Maintain existing design */
+    padding: 15px 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
 .mobile-menu {
     display: block;
     position: fixed;
-    top: 15px;
+    top: 70px; /* Move it slightly below the header */
     left: 15px;
     background: #28a745;
     color: white;
@@ -133,199 +229,109 @@ header {
     cursor: pointer;
     z-index: 1001;
 }
-
-@media (min-width: 769px) {
-    .sidebar {
-        left: 0;
-    }
-    .mobile-menu {
-        display: none;
-    }
+/* Mobile View Adjustments */
+@media screen and (max-width: 768px) {
     .main-content {
-        margin-left: 250px;
-        width: calc(100% - 250px);
-    }
-    header {
-        width: calc(100% - 250px);
-        left: 250px;
+        margin-top: 90px; /* Increase margin slightly for smaller screens */
+        padding: 15px;
     }
 }
-
-/* Cards Layout */
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+/* Modal Overlay */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 450px;
+    background: #ffffff; /* White background */
     padding: 20px;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
     text-align: center;
 }
 
-.card i {
-    font-size: 30px;
-    color: #28a745;
+/* Dark overlay background */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
 }
 
-/* Buttons */
-button {
-    padding: 8px 12px;
+/* Modal Title */
+.modal h3 {
+    color: #28a745; /* KEFARM Green */
+    margin-bottom: 15px;
+}
+
+/* Modal Inputs */
+.modal input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #28a745;
+    border-radius: 5px;
+    outline: none;
+}
+
+/* Modal Buttons */
+.modal button {
+    width: 45%;
+    padding: 10px;
+    margin: 5px;
     border: none;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
 }
 
-button:hover {
-    opacity: 0.8;
-}
-
-button:active {
-    transform: scale(0.95);
-}
-
-.edit-btn {
-    background-color: #4CAF50; /* Green */
+/* Add & Update Buttons */
+.modal button:first-child {
+    background-color: #28a745; /* KEFARM Green */
     color: white;
 }
 
-.delete-btn {
-    background-color: #f44336; /* Red */
+.modal button:first-child:hover {
+    background-color: #1e7e34; /* Dark Green */
+}
+
+/* Cancel Buttons */
+.modal button:last-child {
+    background-color: #dc3545; /* Red for cancel */
     color: white;
 }
 
-/* Table Styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+.modal button:last-child:hover {
+    background-color: #b52b3a;
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-
-th {
-    background: #1e5631;
-    color: white;
-}
-
-/* Action Buttons */
-.button {
-    background: #004d00;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
+/* Close Button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    color: red;
     cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease;
 }
 
-.button:hover {
-    background: #003300;
-}
-
-/* Modal Overlay */
-
-
-/* Modal Content */
-.modal-content {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Ensure modal is centered on small screens */
-@media (max-width: 768px) {
-    .modal-content {
-        width: 90%; /* Reduce width for smaller screens */
+/* Responsive */
+@media screen and (max-width: 480px) {
+    .modal {
+        width: 95%;
     }
 }
 
-
-
-
-.modal h3 {
-    background: #1e5631;
-    color: white;
-    padding: 15px;
-    border-radius: 10px 10px 0 0;
-}
-
-.modal input, .modal select {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #1e5631;
-    border-radius: 5px;
-    background: #f0fff4;
-}
-
-.modal button {
-    background: #1e5631;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.modal button:hover {
-    background: #145a32;
-}
-
-/* Responsive Sidebar */
-@media (min-width: 768px) {
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: fixed;
-        left: 0;
-        top: 0;
-        text-align: left;
-    }
-
-    .sidebar a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .sidebar a i {
-        width: 20px;
-    }
-
-    .main-content {
-        margin-left: 260px;
-        width: calc(100% - 260px);
-    }
-}
-.menu-item.active {
-    background-color: #28a745; /* Change to your desired color */
-    color: white;
-}
 
     </style>
-    
 </head>
 <body>
 <?php
