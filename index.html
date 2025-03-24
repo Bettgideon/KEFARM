@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,20 +6,262 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KEFARM - Smart Agriculture</title>
     <link rel="stylesheet" href="assets/style.css">
+    <style>
+      /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #eef2f3;
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1f8a1e;
+    padding: 10px 20px;
+    color: white;
+    position: relative;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    display: block;
+}
+
+.nav-links li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+.logo-img {
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid white;
+    }
+    .logo-container {
+        display: flex;
+        align-items: center;
+    }
+/* Menu Toggle Button (Mobile) */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        position: relative;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background: #2d572c;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        padding: 10px;
+    }
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(135deg, #2d572c, #1b3b1a);
+    color: white;
+    position: relative;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: white;
+    border-radius: 2px;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hero p {
+    font-size: 20px;
+    margin-bottom: 25px;
+    max-width: 700px;
+    margin: auto;
+    line-height: 1.6;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 14px 28px;
+    background: rgb(0, 28, 1);
+    color: #f4f5f4;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cta-button:hover {
+    background: #0d9b0d;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Features Section */
+.features {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f9f9f9;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.feature-item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.feature-item img {
+    width: 100%;
+    max-width: 280px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.feature-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Market Access Section */
+.market-access {
+    text-align: center;
+    padding: 60px 20px;
+    background: #ffffff;
+}
+
+.market-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.market-item {
+    background: #4caf50;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-weight: bold;
+}
+
+.market-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Footer */
+footer {
+    background: #145A32;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+}
+
+
+    </style>
     <script defer src="assets/script.js"></script>
 </head>
 <body>
     <!-- Header with Navigation -->
     <header>
         <nav class="navbar">
-            <div class="logo">KEFARM</div>
+            <div class="logo-container">
+                <img src="assets/images/Logo.png" alt="KEFARM Logo" class="logo-img">
+                <div class="logo">KEFARM</div>
+            </div>
+            <button class="menu-toggle">&#9776;</button>
             <ul class="nav-links">
                 <li><a href="#about" class="nav-item">About</a></li>
                 <li><a href="#features" class="nav-item">Features</a></li>
+                <li><a href="#climate" class="nav-item">Climate & Crops</a></li>
+                <li><a href="#irrigation" class="nav-item">Irrigation</a></li>
                 <li><a href="#testimonials" class="nav-item">Testimonials</a></li>
                 <li><a href="#contact" class="nav-item">Contact</a></li>
             </ul>
-            <button class="menu-toggle">&#9776;</button>
         </nav>
     </header>
 
@@ -59,6 +302,154 @@
             </div>
         </div>
     </section>
+
+    <!-- Climate & Agricultural Insights Section -->
+    <section id="climate" class="climate">
+        <h2>Climate & Agricultural Insights</h2>
+        <p>Get real-time climate updates, recommended crops, livestock, and market prices.</p>
+        <div class="climate-container">
+            <label for="county">Select Your County:</label>
+            <select id="county">
+                <option value="">-- Select County --</option>
+                <option value="Baringo">Baringo</option>
+                <option value="Bomet">Bomet</option>
+                <option value="Bungoma">Bungoma</option>
+                <option value="Busia">Busia</option>
+                <option value="Elgeyo Marakwet">Elgeyo Marakwet</option>
+                <option value="Embu">Embu</option>
+                <option value="Garissa">Garissa</option>
+                <option value="Homa Bay">Homa Bay</option>
+                <option value="Isiolo">Isiolo</option>
+                <option value="Kajiado">Kajiado</option>
+                <option value="Kakamega">Kakamega</option>
+                <option value="Kericho">Kericho</option>
+                <option value="Kiambu">Kiambu</option>
+                <option value="Kilifi">Kilifi</option>
+                <option value="Kirinyaga">Kirinyaga</option>
+                <option value="Kisii">Kisii</option>
+                <option value="Kisumu">Kisumu</option>
+                <option value="Kitui">Kitui</option>
+                <option value="Kwale">Kwale</option>
+                <option value="Laikipia">Laikipia</option>
+                <option value="Lamu">Lamu</option>
+                <option value="Machakos">Machakos</option>
+                <option value="Makueni">Makueni</option>
+                <option value="Mandera">Mandera</option>
+                <option value="Marsabit">Marsabit</option>
+                <option value="Meru">Meru</option>
+                <option value="Migori">Migori</option>
+                <option value="Mombasa">Mombasa</option>
+                <option value="Murang'a">Murang'a</option>
+                <option value="Nairobi">Nairobi</option>
+                <option value="Nakuru">Nakuru</option>
+                <option value="Nandi">Nandi</option>
+                <option value="Narok">Narok</option>
+                <option value="Nyamira">Nyamira</option>
+                <option value="Nyandarua">Nyandarua</option>
+                <option value="Nyeri">Nyeri</option>
+                <option value="Samburu">Samburu</option>
+                <option value="Siaya">Siaya</option>
+                <option value="Taita Taveta">Taita Taveta</option>
+                <option value="Tana River">Tana River</option>
+                <option value="Tharaka Nithi">Tharaka Nithi</option>
+                <option value="Trans Nzoia">Trans Nzoia</option>
+                <option value="Turkana">Turkana</option>
+                <option value="Uasin Gishu">Uasin Gishu</option>
+                <option value="Vihiga">Vihiga</option>
+                <option value="Wajir">Wajir</option>
+                <option value="West Pokot">West Pokot</option>
+            </select>
+            <button onclick="fetchClimateData()">Get My Climate Data</button>
+            <div id="climate-info"></div>
+        </div>
+    </section>
+
+    <!-- Smart Irrigation Section -->
+    <section id="irrigation" class="irrigation">
+        <h2>Smart Irrigation Solutions</h2>
+        <p>Get customized irrigation recommendations based on your location and water availability.</p>
+        <div class="irrigation-container">
+            <label for="irrigation-county">Select Your County:</label>
+            <select id="irrigation-county">
+                <option value="">-- Select County --</option>
+                <option value="Arid">Arid Counties (Garissa, Mandera, Wajir, Turkana)</option>
+                <option value="SemiArid">Semi-Arid Counties (Kajiado, Machakos, Makueni, Kitui)</option>
+                <option value="Highland">Highland Counties (Nyeri, Meru, Kiambu, Murang'a)</option>
+                <option value="Lake">Lake Region Counties (Kisumu, Siaya, Homa Bay, Migori)</option>
+                <option value="Coastal">Coastal Counties (Mombasa, Kilifi, Kwale, Lamu)</option>
+            </select>
+            <label for="water-source">Main Water Source:</label>
+            <select id="water-source">
+                <option value="">-- Select Water Source --</option>
+                <option value="river">River/Stream</option>
+                <option value="well">Well/Borehole</option>
+                <option value="rain">Rainwater Harvesting</option>
+                <option value="dam">Dam/Reservoir</option>
+            </select>
+            <button onclick="fetchIrrigationData()">Get Irrigation Recommendations</button>
+            <div id="irrigation-info"></div>
+        </div>
+    </section>
+    <section class="market-access">
+        <h2>Market Access & Pricing Insights</h2>
+        <p>Stay updated with real-time market prices and connect with buyers & sellers.</p>
+        
+        <div class="market-grid">
+            <div class="market-item">
+                <h3>Maize</h3>
+                <p>Eldoret: Ksh 3,800 per 90kg</p>
+                <p>Kisumu: Ksh 3,600 per 90kg</p>
+                <p>Nairobi: Ksh 3,500 per 90kg</p>
+                <p>Nakuru: Ksh 3,700 per 90kg</p>
+                <p>Mombasa: Ksh 3,900 per 90kg</p>
+                <p>Kericho: Ksh 3,750 per 90kg</p>
+                <p>Narok: Ksh 3,650 per 90kg</p>
+                <p>Nyeri: Ksh 3,700 per 90kg</p>
+                <p>Kakamega: Ksh 3,550 per 90kg</p>
+            </div>
+    
+            <div class="market-item">
+                <h3>Wheat</h3>
+                <p>Eldoret: Ksh 4,800 per 90kg</p>
+                <p>Kisumu: Ksh 4,700 per 90kg</p>
+                <p>Nairobi: Ksh 4,600 per 90kg</p>
+                <p>Nakuru: Ksh 4,750 per 90kg</p>
+                <p>Mombasa: Ksh 4,900 per 90kg</p>
+                <p>Kericho: Ksh 4,650 per 90kg</p>
+                <p>Narok: Ksh 4,700 per 90kg</p>
+                <p>Nyeri: Ksh 4,650 per 90kg</p>
+                <p>Kakamega: Ksh 4,550 per 90kg</p>
+            </div>
+    
+            <div class="market-item">
+                <h3>Beans</h3>
+                <p>Eldoret: Ksh 9,500 per 90kg</p>
+                <p>Kisumu: Ksh 9,200 per 90kg</p>
+                <p>Nairobi: Ksh 9,000 per 90kg</p>
+                <p>Nakuru: Ksh 9,300 per 90kg</p>
+                <p>Mombasa: Ksh 9,600 per 90kg</p>
+                <p>Kericho: Ksh 9,400 per 90kg</p>
+                <p>Narok: Ksh 9,300 per 90kg</p>
+                <p>Nyeri: Ksh 9,400 per 90kg</p>
+                <p>Kakamega: Ksh 9,100 per 90kg</p>
+            </div>
+    
+            <div class="market-item">
+                <h3>Rice</h3>
+                <p>Eldoret: Ksh 10,500 per 90kg</p>
+                <p>Kisumu: Ksh 10,300 per 90kg</p>
+                <p>Nairobi: Ksh 10,200 per 90kg</p>
+                <p>Nakuru: Ksh 10,400 per 90kg</p>
+                <p>Mombasa: Ksh 10,700 per 90kg</p>
+                <p>Kericho: Ksh 10,500 per 90kg</p>
+                <p>Narok: Ksh 10,400 per 90kg</p>
+                <p>Nyeri: Ksh 10,500 per 90kg</p>
+                <p>Kakamega: Ksh 10,300 per 90kg</p>
+            </div>
+        </div>
+    
+        <a href="https://www.fmk.co.ke" class="cta-button">View More Prices</a>
+    </section>
     
 
     <!-- Testimonials Section -->
@@ -68,6 +459,10 @@
             <div class="testimonial">
                 <p>"KEFARM transformed how we farm!"</p>
                 <span>- Jane, Farmer</span>
+            </div>
+            <div class="testimonial">
+                <p>"The irrigation recommendations saved me 40% water."</p>
+                <span>- Samuel, Farmer in Machakos</span>
             </div>
             <div class="testimonial">
                 <p>"A game changer for food security."</p>
@@ -86,5 +481,154 @@
     <footer>
         <p>&copy; 2025 KEFARM. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.getElementById("menu-toggle");
+    const navLinks = document.querySelector(".nav-links");
+    const navItems = document.querySelectorAll(".nav-item");
+
+    // Toggle menu visibility on click
+    menuToggle.addEventListener("click", function () {
+        navLinks.classList.toggle("active");
+    });
+
+    // Close menu when clicking a navigation link (mobile only)
+    navItems.forEach(item => {
+        item.addEventListener("click", function () {
+            navLinks.classList.remove("active");
+        });
+    });
+});
+
+
+        function fetchClimateData() {
+            const county = document.getElementById('county').value;
+            if (!county) {
+                alert("Please select a county.");
+                return;
+            }
+            
+            const temp = estimateTemperature(county);
+            const weather = estimateWeatherCondition(temp);
+            const crops = getCropRecommendation(temp);
+            const livestock = getLivestockRecommendation(temp);
+            const marketPrices = getMarketPrices(crops);
+            
+            document.getElementById('climate-info').innerHTML = `
+                <h3>Climate Data for ${county}</h3>
+                <p>Estimated Temperature: ${temp}°C</p>
+                <p>Condition: ${weather}</p>
+                <h3>Recommended Crops</h3>
+                <p>${crops}</p>
+                <h3>Recommended Livestock</h3>
+                <p>${livestock}</p>
+                <h3>Market Prices (Per Kg)</h3>
+                <p>${marketPrices}</p>
+            `;
+        }
+
+        function fetchIrrigationData() {
+            const region = document.getElementById('irrigation-county').value;
+            const waterSource = document.getElementById('water-source').value;
+            
+            if (!region || !waterSource) {
+                alert("Please select both region and water source.");
+                return;
+            }
+            
+            const recommendation = getIrrigationRecommendation(region, waterSource);
+            
+            document.getElementById('irrigation-info').innerHTML = `
+                <h3>Smart Irrigation Recommendations</h3>
+                <p><strong>Best System:</strong> ${recommendation.system}</p>
+                <p><strong>Estimated Cost:</strong> ${recommendation.cost}</p>
+                <p><strong>Water Saving:</strong> ${recommendation.waterSaving}</p>
+                <p><strong>Implementation Tips:</strong> ${recommendation.tips}</p>
+                <p><strong>Government Subsidies:</strong> ${recommendation.subsidies}</p>
+            `;
+        }
+
+        function estimateTemperature(county) {
+            // Sample temperature estimation based on county regions
+            if (["Garissa", "Mandera", "Wajir", "Turkana"].includes(county)) return 32;
+            if (["Kajiado", "Machakos", "Makueni", "Kitui"].includes(county)) return 28;
+            if (["Nyeri", "Meru", "Kiambu", "Murang'a"].includes(county)) return 22;
+            if (["Kisumu", "Siaya", "Homa Bay", "Migori"].includes(county)) return 26;
+            if (["Mombasa", "Kilifi", "Kwale", "Lamu"].includes(county)) return 30;
+            return 26; // Default
+        }
+
+        function estimateWeatherCondition(temp) {
+            if (temp > 28) return "Sunny and Dry";
+            if (temp >= 24 && temp <= 28) return "Partly Cloudy";
+            return "Rainy";
+        }
+
+        function getCropRecommendation(temp) {
+            if (temp > 28) return "Drought-resistant crops: Sorghum, Millet, Cowpeas - Plant in March, harvest in August.";
+            if (temp >= 24 && temp <= 28) return "Maize, Beans, Green Grams - Plant in April, harvest in October.";
+            return "Highland crops: Potatoes, Cabbage, Peas - Plant in May, harvest in November.";
+        }
+
+        function getLivestockRecommendation(temp) {
+            if (temp > 28) return "Drought-resistant livestock: Goats, Camels, Indigenous Cattle";
+            if (temp >= 24 && temp <= 28) return "Dairy Cattle, Poultry, Sheep";
+            return "Dairy Cattle (Highland breeds), Pigs, Rabbits";
+        }
+
+        function getMarketPrices(crops) {
+            const priceData = {
+                "Coconut": "Ksh 150/kg",
+                "Mango": "Ksh 120/kg",
+                "Cashew Nuts": "Ksh 300/kg",
+                "Maize": "Ksh 50/kg",
+                "Beans": "Ksh 90/kg",
+                "Sorghum": "Ksh 70/kg",
+                "Potatoes": "Ksh 40/kg",
+                "Carrots": "Ksh 60/kg",
+                "Peas": "Ksh 100/kg"
+            };
+            return crops.split(', ').map(crop => `${crop}: ${priceData[crop] || 'N/A'}`).join('<br>');
+        }
+        function fetchIrrigationData() {
+    const county = document.getElementById("irrigation-county").value;
+    const waterSource = document.getElementById("water-source").value;
+    const irrigationInfo = document.getElementById("irrigation-info");
+
+    if (!county || !waterSource) {
+        irrigationInfo.innerHTML = "<p style='color: red;'>Please select both county and water source.</p>";
+        return;
+    }
+
+    let recommendations = "";
+
+    if (county === "Arid") {
+        recommendations = "Drip irrigation is recommended due to water scarcity. Mulching helps retain soil moisture.";
+    } else if (county === "SemiArid") {
+        recommendations = "Consider using micro-sprinklers or drip irrigation. Water conservation techniques are key.";
+    } else if (county === "Highland") {
+        recommendations = "Sprinkler irrigation works well in highland areas with reliable rainfall.";
+    } else if (county === "Lake") {
+        recommendations = "Flood or furrow irrigation may be suitable due to proximity to water sources.";
+    } else if (county === "Coastal") {
+        recommendations = "Drip irrigation with saline-resistant plants is recommended for coastal regions.";
+    }
+
+    recommendations += "<br><strong>Water Source Considerations:</strong> ";
+    if (waterSource === "river") {
+        recommendations += "Ensure proper filtration and check for seasonal variations in water levels.";
+    } else if (waterSource === "well") {
+        recommendations += "Drip irrigation is effective for conserving well water. Consider recharge strategies.";
+    } else if (waterSource === "rain") {
+        recommendations += "Rainwater harvesting and storage tanks will enhance irrigation during dry seasons.";
+    } else if (waterSource === "dam") {
+        recommendations += "Can support large-scale irrigation; proper management is essential to avoid water loss.";
+    }
+
+    irrigationInfo.innerHTML = `<p style='color: green;'>${recommendations}</p>`;
+}
+
+    </script>
 </body>
 </html>

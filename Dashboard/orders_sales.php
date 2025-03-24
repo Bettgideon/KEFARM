@@ -220,18 +220,6 @@ include '../db_connect.php';
             z-index: 1000;
         }
 
-        .mobile-menu {
-            display: block;
-            position: fixed;
-            top: 70px; /* Move it slightly below the header */
-            left: 15px;
-            background: #28a745;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 1001;
-        }
 
         /* Mobile View Adjustments */
         @media screen and (max-width: 768px) {

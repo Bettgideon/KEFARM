@@ -28,8 +28,12 @@ if ($hour < 12) {
 } else {
     $greeting = "Good evening";
 }
-?>
 
+// Get the base URL dynamically
+$base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+$project_path = str_replace($_SERVER['DOCUMENT_ROOT'], '', str_replace('\\', '/', realpath(__DIR__)));
+$full_url = $base_url . $project_path;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,15 +47,29 @@ if ($hour < 12) {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #1a3e1f; /* Dark green */
+            background-color: #1a3e1f;
             color: white;
-            padding: 15px 20px;
+            padding: 10px 20px;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            width: 100%; /* Ensure it covers the full width */
+            width: 100%;
             z-index: 1000;
+            gap: 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
         }
 
         .header h2 {
@@ -62,7 +80,6 @@ if ($hour < 12) {
             margin: 0;
         }
 
-        /* Ensure greeting message is always visible */
         .welcome-message {
             font-size: 16px;
             white-space: nowrap;
@@ -72,10 +89,20 @@ if ($hour < 12) {
             flex-shrink: 0;
         }
 
-        /* Responsive Adjustments */
+        /* Ensure content isn't hidden behind fixed header */
+        main {
+            padding-top: 70px;
+        }
+
         @media (max-width: 768px) {
             .header {
-                padding: 10px 15px;
+                padding: 8px 12px;
+                gap: 10px;
+            }
+
+            .logo {
+                width: 36px;
+                height: 36px;
             }
 
             .header h2 {
@@ -86,6 +113,17 @@ if ($hour < 12) {
                 font-size: 14px;
                 max-width: 120px;
             }
+            
+            main {
+                padding-top: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                width: 32px;
+                height: 32px;
+            }
         }
     </style>
 </head>
@@ -93,9 +131,11 @@ if ($hour < 12) {
 
 <!-- Header Section -->
 <header class="header">
+    <div class="logo-container">
+        <img src="<?php echo $full_url; ?>/assets/images/Logo.png" alt="KEFARM Logo" class="logo">
+    </div>
     <h2>KEFARM</h2>
     <span class="welcome-message"><?php echo $greeting; ?>, <?php echo htmlspecialchars($_SESSION["user_name"]); ?>!</span>
 </header>
 
-</body>
-</html>
+<main>
