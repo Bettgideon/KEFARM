@@ -217,18 +217,7 @@ header {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
-.mobile-menu {
-    display: block;
-    position: fixed;
-    top: 70px; /* Move it slightly below the header */
-    left: 15px;
-    background: #28a745;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 1001;
-}
+
 /* Mobile View Adjustments */
 @media screen and (max-width: 768px) {
     .main-content {
@@ -342,21 +331,6 @@ header {
 <?php
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
-<div class="sidebar" id="sidebar">
-    <h2>KEFARM</h2>
-    <ul>
-        <li><a href="index.php" class="<?= ($current_page == 'index.php') ? 'active' : '' ?>"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="farm_management.php" class="<?= ($current_page == 'farm_management.php') ? 'active' : '' ?>"><i class="fas fa-seedling"></i> Farm Management</a></li>
-        <li><a href="orders_sales.php" class="<?= ($current_page == 'orders_sales.php') ? 'active' : '' ?>"><i class="fas fa-shopping-cart"></i> Orders & Sales</a></li>
-        <li><a href="inventory.php" class="<?= ($current_page == 'inventory.php') ? 'active' : '' ?>"><i class="fas fa-warehouse"></i> Inventory</a></li>
-        <li><a href="reports.php" class="<?= ($current_page == 'reports.php') ? 'active' : '' ?>"><i class="fas fa-chart-line"></i> Reports</a></li>
-        <li><a href="users.php" class="<?= ($current_page == 'users.php') ? 'active' : '' ?>"><i class="fas fa-users"></i> User Management</a></li>
-        <li><a href="settings.php" class="<?= ($current_page == 'settings.php') ? 'active' : '' ?>"><i class="fas fa-cog"></i> Settings</a></li>
-    </ul>
-    <div class="logout">
-        <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
-</div>
 
 
 <div class="main-content">

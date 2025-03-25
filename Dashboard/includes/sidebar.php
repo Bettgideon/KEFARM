@@ -1,5 +1,5 @@
 <?php
-// sidebar.php
+session_start(); // Ensure session is started
 
 // Check if the user is logged in
 if (!isset($_SESSION["user_id"])) {
@@ -7,10 +7,12 @@ if (!isset($_SESSION["user_id"])) {
     exit();
 }
 
-// Get correct base path
-$base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-$project_path = str_replace($_SERVER['DOCUMENT_ROOT'], '', str_replace('\\', '/', realpath(__DIR__)));
-$full_url = $base_url . $project_path;
+// Get the base URL dynamically
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+$base_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . "/KEFARM";
+
+// Define the correct logo path
+$logo_url = $base_url . "/assets/images/Logo.png";
 ?>
 
 <!-- Sidebar HTML -->
@@ -18,11 +20,12 @@ $full_url = $base_url . $project_path;
     <!-- Logo Container -->
     <div class="sidebar-logo">
         <a href="index.php">
-            <img src="<?php echo $full_url; ?>/assets/images/Logo.png" alt="KEFARM Logo" onerror="this.src='<?php echo $full_url; ?>/assets/images/fallback-logo.png';this.onerror=null;">
+            <img src="<?php echo $logo_url; ?>" alt="KEFARM Logo" onerror="this.onerror=null; this.src='<?php echo $base_url; ?>/assets/images/fallback-logo.png';">
             <span>KEFARM</span>
         </a>
     </div>
-    
+
+    <!-- Navigation Menu -->
     <ul>
         <li><a href="index.php" class="<?= ($current_page == 'index.php') ? 'active' : '' ?>"><i class="fas fa-home"></i> Dashboard</a></li>
         <li><a href="farm_management.php" class="<?= ($current_page == 'farm_management.php') ? 'active' : '' ?>"><i class="fas fa-seedling"></i> Farm Management</a></li>
@@ -32,7 +35,8 @@ $full_url = $base_url . $project_path;
         <li><a href="users.php" class="<?= ($current_page == 'users.php') ? 'active' : '' ?>"><i class="fas fa-users"></i> User Management</a></li>
         <li><a href="settings.php" class="<?= ($current_page == 'settings.php') ? 'active' : '' ?>"><i class="fas fa-cog"></i> Settings</a></li>
     </ul>
-    
+
+    <!-- Logout Button -->
     <div class="logout">
         <button class="logout-btn" onclick="window.location.href='../logout.php'">
             <i class="fas fa-sign-out-alt"></i> Logout
@@ -50,7 +54,7 @@ $full_url = $base_url . $project_path;
         position: fixed;
         top: 0;
         left: 0;
-        width: 250px;
+        width: 260px;
         height: 100%;
         background-color: #228B22;
         color: #fff;
@@ -64,7 +68,7 @@ $full_url = $base_url . $project_path;
     .sidebar-logo {
         padding: 20px;
         text-align: center;
-        background-color: #006400;
+        background-color:rgb(2, 55, 2);
         border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
@@ -77,18 +81,19 @@ $full_url = $base_url . $project_path;
     }
 
     .sidebar-logo img {
-        width: 50px;
-        height: 50px;
+        display: block;
+        width: 60px; /* Adjust width */
+        height: 60px;
         border-radius: 50%;
         object-fit: cover;
         border: 2px solid white;
-        margin-right: 10px;
-        background-color: #f0f0f0; /* Fallback color */
+        background-color: white; /* Debugging */
     }
 
     .sidebar-logo span {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         font-weight: bold;
+        margin-left: 10px;
     }
 
     /* Navigation Items */
@@ -108,24 +113,26 @@ $full_url = $base_url . $project_path;
     .sidebar ul li a {
         color: #fff;
         text-decoration: none;
-        display: block;
+        display: flex;
+        align-items: center;
         transition: all 0.3s;
-    }
-
-    .sidebar ul li a:hover {
-        background-color: transparent;
-        padding-left: 5px;
     }
 
     .sidebar ul li a i {
         width: 25px;
         text-align: center;
-        margin-right: 10px;
+        margin-right: 12px;
+        font-size: 18px;
+    }
+
+    .sidebar ul li a:hover {
+        background-color: #2E8B57;
+        padding-left: 10px;
     }
 
     .sidebar ul li a.active {
         background-color: #32CD32;
-        border-radius: 4px;
+        border-radius: 5px;
     }
 
     /* Logout Button */
@@ -133,16 +140,17 @@ $full_url = $base_url . $project_path;
         padding: 15px;
         background-color: #006400;
         border-top: 1px solid rgba(255,255,255,0.1);
+        text-align: center;
     }
 
     .logout-btn {
         background-color: #dc3545;
         color: white;
         border: none;
-        padding: 10px;
+        padding: 12px;
         border-radius: 5px;
         cursor: pointer;
-        width: 100%;
+        width: 90%;
         transition: background-color 0.3s;
     }
 
@@ -154,22 +162,23 @@ $full_url = $base_url . $project_path;
     .mobile-menu {
         display: none;
         position: fixed;
-        top: 20px;
-        left: 20px;
+        top: 15px;
+        left: 15px;
         background-color: #228B22;
         color: #fff;
         border: none;
-        padding: 10px 15px;
-        border-radius: 4px;
+        padding: 12px 15px;
+        border-radius: 5px;
         cursor: pointer;
         z-index: 1002;
         box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        font-size: 18px;
     }
 
     /* Responsive Adjustments */
     @media (max-width: 768px) {
         .sidebar {
-            left: -250px;
+            left: -260px;
         }
         .sidebar.active {
             left: 0;
@@ -185,12 +194,4 @@ $full_url = $base_url . $project_path;
         let sidebar = document.getElementById("sidebar");
         sidebar.classList.toggle("active");
     }
-    
-    // Verify logo loaded
-    document.addEventListener('DOMContentLoaded', function() {
-        const logo = document.querySelector('.sidebar-logo img');
-        logo.onerror = function() {
-            this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23228B22"/><text x="50" y="50" font-size="10" text-anchor="middle" fill="white">KEFARM</text></svg>';
-        };
-    });
 </script>

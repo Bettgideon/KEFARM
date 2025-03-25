@@ -19,115 +19,59 @@ include 'includes/header.php'; // This already contains the greeting message
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* General Styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        /* Header */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #2E8B57; /* Dark green */
-            padding: 15px 20px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #fff; /* White text */
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-top: 80px;
-            padding: 20px;
-            transition: margin-left 0.3s;
-        }
-
-        /* Push content to the right on desktop */
-        @media (min-width: 769px) {
-            .main-content {
-                margin-left: 250px; /* Adjust for sidebar width */
-            }
-        }
-
-        /* Push content to the right when sidebar is active on mobile */
-        @media (max-width: 768px) {
-            .main-content.active {
-                margin-left: 250px;
-            }
-        }
-
-        /* Cards */
-        .cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .card {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            flex: 1 1 calc(25% - 20px);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card i {
-            font-size: 40px;
-            color: #228B22; /* Dark green */
-            margin-bottom: 10px;
-        }
-
-        .card h3 {
-            margin: 10px 0;
-            font-size: 24px;
-            color: #333;
-        }
-
-        .card p {
-            margin: 0;
-            color: #777;
-        }
-
-        @media (max-width: 768px) {
-            .card {
-                flex: 1 1 calc(50% - 20px); /* 2 columns on tablets */
-            }
-        }
-
-        @media (max-width: 480px) {
-            .card {
-                flex: 1 1 100%; /* 1 column on mobile */
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css"> <!-- Make sure styles are correctly linked -->
 </head>
+<style>
+    /* Cards Container */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Individual Card Styling */
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effect */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Icons */
+.card i {
+    font-size: 40px;
+    color: #2e7d32; /* Dark Green */
+    margin-bottom: 10px;
+}
+
+/* Numbers */
+.card h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+}
+
+/* Descriptions */
+.card p {
+    font-size: 16px;
+    color: #666;
+}
+
+</style>
 <body>
 
 <!-- Main Content -->
 <div class="main-content" id="main-content">
-    <!-- Header is already included in includes/header.php -->
-    
     <div class="cards">
         <div class="card"><i class="fas fa-seedling"></i><h3>150+</h3><p>Farms Registered</p></div>
         <div class="card"><i class="fas fa-shopping-cart"></i><h3>250+</h3><p>Orders Processed</p></div>
