@@ -77,8 +77,8 @@ $full_url = $base_url . $project_path;
     }
 
     .sidebar-logo img {
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         object-fit: cover;
         border: 2px solid white;
