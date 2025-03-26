@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KEFARM - Smart Agriculture</title>
-    <link rel="stylesheet" href="assets/style.css">
     <style>
       /* ===== KEFARM Color Palette ===== */
 :root {
@@ -136,6 +134,7 @@ body {
   max-width: 700px;
   margin: 0 auto;
 }
+
 /* About Section */
 .about {
     background: linear-gradient(135deg, #2d572c, #1b3b1a);
@@ -311,6 +310,114 @@ section {
   box-shadow: var(--shadow-md);
 }
 
+/* Climate Section Styles */
+.climate-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+}
+
+.climate-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.climate-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.climate-container button {
+  background: var(--kefarm-gradient-med);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.climate-container button:hover {
+  background: var(--kefarm-accent);
+}
+
+#climate-info {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.recommendation-box {
+  background: var(--bg-lighter);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.weather-info {
+  background: #e3f2fd;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+/* Irrigation Section */
+.irrigation-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+}
+
+.irrigation-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.irrigation-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.irrigation-container button {
+  background: var(--kefarm-gradient-med);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.irrigation-container button:hover {
+  background: var(--kefarm-accent);
+}
+
+#irrigation-info {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.livestock-watering {
+  background: #e8f5e9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
 /* Crop Recommendations */
 .crop-recommendations {
   background: var(--bg-light);
@@ -367,6 +474,31 @@ section {
   border-bottom: none;
 }
 
+/* Testimonials */
+.testimonials {
+  background: var(--bg-white);
+}
+
+.testimonial-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial {
+  background: var(--bg-lighter);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Contact Section */
+.contact {
+  background: var(--bg-light);
+}
+
 /* Footer */
 footer {
   background: var(--kefarm-dark);
@@ -420,9 +552,7 @@ footer {
     font-size: 1rem;
   }
 }
-
     </style>
-    <script defer src="assets/script.js"></script>
 </head>
 <body>
     <!-- Header with Navigation -->
@@ -432,7 +562,7 @@ footer {
                 <img src="assets/images/Logo.png" alt="KEFARM Logo" class="logo-img">
                 <div class="logo">KEFARM</div>
             </div>
-            <button class="menu-toggle">&#9776;</button>
+            <button class="menu-toggle" id="menu-toggle">&#9776;</button>
             <ul class="nav-links">
                 <li><a href="#about" class="nav-item">About</a></li>
                 <li><a href="#features" class="nav-item">Features</a></li>
@@ -452,6 +582,8 @@ footer {
             <a href="register.html" class="cta-button">Get Started</a>
         </div>
     </section>
+
+    <!-- About Section -->
     <section id="about" class="about">
         <div class="about-container">
             <h2>About KEFARM</h2>
@@ -478,7 +610,6 @@ footer {
         </div>
     </section>
     
-
     <!-- Features Section -->
     <section id="features" class="features">
         <h2>Key Features</h2>
@@ -488,7 +619,7 @@ footer {
                 <h3>Real-time Weather & Climate Data</h3>
             </div>
             <div class="feature-item">
-                <img src="assets/images/ai .jpg" alt="AI Recommendations" width="300" height="200" loading="lazy">
+                <img src="assets/images/ai.jpg" alt="AI Recommendations" width="300" height="200" loading="lazy">
                 <h3>AI-Powered Crop Recommendations</h3>
             </div>
             <div class="feature-item">
@@ -496,7 +627,7 @@ footer {
                 <h3>Market Access & Pricing Insights</h3>
             </div>
             <div class="feature-item">
-                <img src="assets/images/irrigation.jpg" alt="Irrigation Solutions" width="300" height="200" loading="lazy">
+                <img src="assets/images/Irrigation.jpg" alt="Irrigation Solutions" width="300" height="200" loading="lazy">
                 <h3>Smart Irrigation Solutions</h3>
             </div>
         </div>
@@ -589,6 +720,8 @@ footer {
             <div id="irrigation-info"></div>
         </div>
     </section>
+
+    <!-- Market Access Section -->
     <section class="market-access">
         <h2>Market Access & Pricing Insights</h2>
         <p>Stay updated with real-time market prices and connect with buyers & sellers.</p>
@@ -649,6 +782,8 @@ footer {
     
         <a href="https://www.fmk.co.ke" class="cta-button">View More Prices</a>
     </section>
+
+    <!-- Crop Recommendations Section -->
     <section class="crop-recommendations">
         <h2>Crop Variety Recommendations by Region</h2>
         <p>Select the best crop variety for your region to maximize yield and quality.</p>
@@ -704,7 +839,6 @@ footer {
         </div>
     </section>
     
-
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials">
         <h2>What Farmers Say</h2>
@@ -736,152 +870,745 @@ footer {
     </footer>
 
     <script>
+        // Navigation Menu Toggle
         document.addEventListener("DOMContentLoaded", function () {
-    const menuToggle = document.getElementById("menu-toggle");
-    const navLinks = document.querySelector(".nav-links");
-    const navItems = document.querySelectorAll(".nav-item");
+            const menuToggle = document.getElementById("menu-toggle");
+            const navLinks = document.querySelector(".nav-links");
+            const navItems = document.querySelectorAll(".nav-item");
 
-    // Toggle menu visibility on click
-    menuToggle.addEventListener("click", function () {
-        navLinks.classList.toggle("active");
-    });
+            // Toggle menu visibility on click
+            menuToggle.addEventListener("click", function () {
+                navLinks.classList.toggle("active");
+            });
 
-    // Close menu when clicking a navigation link (mobile only)
-    navItems.forEach(item => {
-        item.addEventListener("click", function () {
-            navLinks.classList.remove("active");
+            // Close menu when clicking a navigation link (mobile only)
+            navItems.forEach(item => {
+                item.addEventListener("click", function () {
+                    if (window.innerWidth <= 768) {
+                        navLinks.classList.remove("active");
+                    }
+                });
+            });
         });
-    });
-});
 
-
-        function fetchClimateData() {
-            const county = document.getElementById('county').value;
-            if (!county) {
-                alert("Please select a county.");
-                return;
+        // Agricultural Data for All 47 Counties
+        const agriculturalData = {
+            "Baringo": { 
+                crops: ["Maize", "Sorghum", "Green grams"], 
+                season: "March - May", 
+                harvest: "August - October",
+                livestock: ["Goats", "Sheep", "Indigenous cattle"],
+                poultry: ["Kienyeji chickens", "Guinea fowl"],
+                marketPrices: {
+                    "Maize": "Ksh 50/kg",
+                    "Sorghum": "Ksh 70/kg",
+                    "Green grams": "Ksh 120/kg"
+                }
+            },
+            "Bomet": { 
+                crops: ["Tea", "Maize", "Potatoes"], 
+                season: "March - May", 
+                harvest: "July - September",
+                livestock: ["Dairy cattle", "Sheep"],
+                poultry: ["Layers", "Broilers"],
+                marketPrices: {
+                    "Tea": "Ksh 200/kg",
+                    "Maize": "Ksh 50/kg",
+                    "Potatoes": "Ksh 40/kg"
+                }
+            },
+            "Bungoma": { 
+                crops: ["Maize", "Sugarcane", "Beans"], 
+                season: "February - April", 
+                harvest: "July - October",
+                livestock: ["Dairy cattle", "Pigs"],
+                poultry: ["Kienyeji chickens", "Ducks"],
+                marketPrices: {
+                    "Maize": "Ksh 50/kg",
+                    "Sugarcane": "Ksh 3,000/ton",
+                    "Beans": "Ksh 90/kg"
+                }
+            },
+            "Busia": { 
+                crops: ["Cassava", "Maize", "Groundnuts"], 
+                season: "March - May", 
+                harvest: "July - September",
+                livestock: ["Indigenous cattle", "Goats"],
+                poultry: ["Local chickens", "Guinea fowl"],
+                marketPrices: {
+                    "Cassava": "Ksh 30/kg",
+                    "Maize": "Ksh 50/kg",
+                    "Groundnuts": "Ksh 150/kg"
+                }
+            },
+            "Elgeyo Marakwet": { 
+                crops: ["Wheat", "Barley", "Dairy farming"], 
+                season: "April - June", 
+                harvest: "September - November",
+                livestock: ["Dairy cattle", "Sheep"],
+                poultry: ["Layers", "Broilers"],
+                marketPrices: {
+                    "Wheat": "Ksh 60/kg",
+                    "Barley": "Ksh 50/kg",
+                    "Milk": "Ksh 50/liter"
+                }
+            },
+            "Embu": { 
+                crops: ["Coffee", "Macadamia", "Bananas"], 
+                season: "March - May", 
+                harvest: "August - October",
+                livestock: ["Dairy cattle", "Goats"],
+                poultry: ["Kienyeji chickens", "Turkey"],
+                marketPrices: {
+                    "Coffee": "Ksh 300/kg",
+                    "Macadamia": "Ksh 200/kg",
+                    "Bananas": "Ksh 20/piece"
+                }
+            },
+            "Garissa": { 
+            crops: ["Watermelon", "Mangoes", "Tomatoes"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Camels", "Goats", "Sheep"],
+            poultry: ["Local chickens", "Guinea fowl"],
+            marketPrices: {
+                "Watermelon": "Ksh 80/kg",
+                "Mangoes": "Ksh 50/kg",
+                "Tomatoes": "Ksh 60/kg"
             }
-            
-            const temp = estimateTemperature(county);
-            const weather = estimateWeatherCondition(temp);
-            const crops = getCropRecommendation(temp);
-            const livestock = getLivestockRecommendation(temp);
-            const marketPrices = getMarketPrices(crops);
-            
-            document.getElementById('climate-info').innerHTML = `
-                <h3>Climate Data for ${county}</h3>
-                <p>Estimated Temperature: ${temp}°C</p>
-                <p>Condition: ${weather}</p>
-                <h3>Recommended Crops</h3>
-                <p>${crops}</p>
-                <h3>Recommended Livestock</h3>
-                <p>${livestock}</p>
-                <h3>Market Prices (Per Kg)</h3>
-                <p>${marketPrices}</p>
-            `;
-        }
-
-        function fetchIrrigationData() {
-            const region = document.getElementById('irrigation-county').value;
-            const waterSource = document.getElementById('water-source').value;
-            
-            if (!region || !waterSource) {
-                alert("Please select both region and water source.");
-                return;
-            }
-            
-            const recommendation = getIrrigationRecommendation(region, waterSource);
-            
-            document.getElementById('irrigation-info').innerHTML = `
-                <h3>Smart Irrigation Recommendations</h3>
-                <p><strong>Best System:</strong> ${recommendation.system}</p>
-                <p><strong>Estimated Cost:</strong> ${recommendation.cost}</p>
-                <p><strong>Water Saving:</strong> ${recommendation.waterSaving}</p>
-                <p><strong>Implementation Tips:</strong> ${recommendation.tips}</p>
-                <p><strong>Government Subsidies:</strong> ${recommendation.subsidies}</p>
-            `;
-        }
-
-        function estimateTemperature(county) {
-            // Sample temperature estimation based on county regions
-            if (["Garissa", "Mandera", "Wajir", "Turkana"].includes(county)) return 32;
-            if (["Kajiado", "Machakos", "Makueni", "Kitui"].includes(county)) return 28;
-            if (["Nyeri", "Meru", "Kiambu", "Murang'a"].includes(county)) return 22;
-            if (["Kisumu", "Siaya", "Homa Bay", "Migori"].includes(county)) return 26;
-            if (["Mombasa", "Kilifi", "Kwale", "Lamu"].includes(county)) return 30;
-            return 26; // Default
-        }
-
-        function estimateWeatherCondition(temp) {
-            if (temp > 28) return "Sunny and Dry";
-            if (temp >= 24 && temp <= 28) return "Partly Cloudy";
-            return "Rainy";
-        }
-
-        function getCropRecommendation(temp) {
-            if (temp > 28) return "Drought-resistant crops: Sorghum, Millet, Cowpeas - Plant in March, harvest in August.";
-            if (temp >= 24 && temp <= 28) return "Maize, Beans, Green Grams - Plant in April, harvest in October.";
-            return "Highland crops: Potatoes, Cabbage, Peas - Plant in May, harvest in November.";
-        }
-
-        function getLivestockRecommendation(temp) {
-            if (temp > 28) return "Drought-resistant livestock: Goats, Camels, Indigenous Cattle";
-            if (temp >= 24 && temp <= 28) return "Dairy Cattle, Poultry, Sheep";
-            return "Dairy Cattle (Highland breeds), Pigs, Rabbits";
-        }
-
-        function getMarketPrices(crops) {
-            const priceData = {
-                "Coconut": "Ksh 150/kg",
-                "Mango": "Ksh 120/kg",
-                "Cashew Nuts": "Ksh 300/kg",
-                "Maize": "Ksh 50/kg",
-                "Beans": "Ksh 90/kg",
+        },
+        "Homa Bay": { 
+            crops: ["Groundnuts", "Sorghum", "Sweet potatoes"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Indigenous cattle", "Goats"],
+            poultry: ["Local chickens", "Ducks"],
+            marketPrices: {
+                "Groundnuts": "Ksh 150/kg",
                 "Sorghum": "Ksh 70/kg",
+                "Sweet potatoes": "Ksh 30/kg"
+            }
+        },
+        "Isiolo": { 
+            crops: ["Melons", "Pasture farming", "Dates"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Camels", "Goats", "Sheep"],
+            poultry: ["Local chickens", "Guinea fowl"],
+            marketPrices: {
+                "Melons": "Ksh 50/kg",
+                "Dates": "Ksh 200/kg",
+                "Beef": "Ksh 400/kg"
+            }
+        },
+        "Kajiado": { 
+            crops: ["Pasture farming", "Tomatoes", "Capsicum"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Beef cattle", "Sheep", "Goats"],
+            poultry: ["Local chickens", "Ostriches"],
+            marketPrices: {
+                "Tomatoes": "Ksh 60/kg",
+                "Capsicum": "Ksh 80/kg",
+                "Beef": "Ksh 400/kg"
+            }
+        },
+        "Kakamega": { 
+            crops: ["Sugarcane", "Maize", "Beans"], 
+            season: "March - May", 
+            harvest: "August - October",
+            livestock: ["Dairy cattle", "Pigs"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Sugarcane": "Ksh 3,000/ton",
+                "Maize": "Ksh 50/kg",
+                "Beans": "Ksh 90/kg"
+            }
+        },
+        "Kericho": { 
+            crops: ["Tea", "Maize", "Coffee"], 
+            season: "March - May", 
+            harvest: "August - October",
+            livestock: ["Dairy cattle", "Sheep"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Tea": "Ksh 200/kg",
+                "Maize": "Ksh 50/kg",
+                "Coffee": "Ksh 300/kg"
+            }
+        },
+        "Kiambu": { 
+            crops: ["Tea", "Coffee", "Horticulture"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Dairy cattle", "Pigs"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Tea": "Ksh 200/kg",
+                "Coffee": "Ksh 300/kg",
+                "Vegetables": "Ksh 40-100/kg"
+            }
+        },
+        "Kilifi": { 
+            crops: ["Cashew nuts", "Coconuts", "Mangoes"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Indigenous cattle", "Goats"],
+            poultry: ["Local chickens", "Ducks"],
+            marketPrices: {
+                "Cashew nuts": "Ksh 300/kg",
+                "Coconuts": "Ksh 50/piece",
+                "Mangoes": "Ksh 50/kg"
+            }
+        },
+        "Kirinyaga": { 
+            crops: ["Rice", "Tea", "Coffee"], 
+            season: "March - May", 
+            harvest: "August - October",
+            livestock: ["Dairy cattle", "Goats"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Rice": "Ksh 120/kg",
+                "Tea": "Ksh 200/kg",
+                "Coffee": "Ksh 300/kg"
+            }
+        },
+        "Kisii": { 
+            crops: ["Bananas", "Tea", "Coffee"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Dairy cattle", "Pigs"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Bananas": "Ksh 20/piece",
+                "Tea": "Ksh 200/kg",
+                "Coffee": "Ksh 300/kg"
+            }
+        },
+        "Kisumu": { 
+            crops: ["Rice", "Sorghum", "Groundnuts"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Dairy cattle", "Pigs"],
+            poultry: ["Layers", "Ducks"],
+            marketPrices: {
+                "Rice": "Ksh 120/kg",
+                "Sorghum": "Ksh 70/kg",
+                "Groundnuts": "Ksh 150/kg"
+            }
+        },
+        "Kitui": { 
+            crops: ["Green grams", "Sorghum", "Mangoes"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Goats", "Sheep"],
+            poultry: ["Kienyeji chickens", "Guinea fowl"],
+            marketPrices: {
+                "Green grams": "Ksh 120/kg",
+                "Sorghum": "Ksh 70/kg",
+                "Mangoes": "Ksh 50/kg"
+            }
+        },
+        "Kwale": { 
+            crops: ["Cashew nuts", "Coconuts", "Mangoes"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Indigenous cattle", "Goats"],
+            poultry: ["Local chickens", "Ducks"],
+            marketPrices: {
+                "Cashew nuts": "Ksh 300/kg",
+                "Coconuts": "Ksh 50/piece",
+                "Mangoes": "Ksh 50/kg"
+            }
+        },
+        "Laikipia": { 
+            crops: ["Maize", "Wheat", "Pasture farming"], 
+            season: "March - May", 
+            harvest: "August - October",
+            livestock: ["Beef cattle", "Sheep"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Maize": "Ksh 50/kg",
+                "Wheat": "Ksh 60/kg",
+                "Beef": "Ksh 400/kg"
+            }
+        },
+        "Lamu": { 
+            crops: ["Mangoes", "Coconuts", "Rice"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Indigenous cattle", "Goats"],
+            poultry: ["Local chickens", "Ducks"],
+            marketPrices: {
+                "Mangoes": "Ksh 50/kg",
+                "Coconuts": "Ksh 50/piece",
+                "Rice": "Ksh 120/kg"
+            }
+        },
+        "Machakos": { 
+            crops: ["Maize", "Mangoes", "Beans"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Goats", "Sheep"],
+            poultry: ["Kienyeji chickens", "Guinea fowl"],
+            marketPrices: {
+                "Maize": "Ksh 50/kg",
+                "Mangoes": "Ksh 50/kg",
+                "Beans": "Ksh 90/kg"
+            }
+        },
+        "Makueni": { 
+            crops: ["Mangoes", "Green grams", "Pigeon peas"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Goats", "Sheep"],
+            poultry: ["Kienyeji chickens", "Guinea fowl"],
+            marketPrices: {
+                "Mangoes": "Ksh 50/kg",
+                "Green grams": "Ksh 120/kg",
+                "Pigeon peas": "Ksh 100/kg"
+            }
+        },
+        "Mandera": { 
+            crops: ["Melons", "Tomatoes", "Mangoes"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Camels", "Goats", "Sheep"],
+            poultry: ["Local chickens", "Guinea fowl"],
+            marketPrices: {
+                "Melons": "Ksh 50/kg",
+                "Tomatoes": "Ksh 60/kg",
+                "Mangoes": "Ksh 50/kg"
+            }
+        },
+        "Marsabit": { 
+            crops: ["Pasture farming", "Melons", "Dates"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Camels", "Goats", "Sheep"],
+            poultry: ["Local chickens", "Guinea fowl"],
+            marketPrices: {
+                "Dates": "Ksh 200/kg",
+                "Melons": "Ksh 50/kg",
+                "Camel milk": "Ksh 100/liter"
+            }
+        },
+        "Meru": { 
+            crops: ["Miraa", "Tea", "Bananas"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Dairy cattle", "Goats"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Miraa": "Ksh 200/bundle",
+                "Tea": "Ksh 200/kg",
+                "Bananas": "Ksh 20/piece"
+            }
+        },
+        "Migori": { 
+            crops: ["Tobacco", "Sugarcane", "Maize"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Dairy cattle", "Pigs"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Tobacco": "Ksh 200/kg",
+                "Sugarcane": "Ksh 3,000/ton",
+                "Maize": "Ksh 50/kg"
+            }
+        },
+        "Mombasa": { 
+            crops: ["Cashew nuts", "Coconuts", "Mangoes"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Indigenous cattle", "Goats"],
+            poultry: ["Local chickens", "Ducks"],
+            marketPrices: {
+                "Cashew nuts": "Ksh 300/kg",
+                "Coconuts": "Ksh 50/piece",
+                "Mangoes": "Ksh 50/kg"
+            }
+        },
+        "Murang'a": { 
+            crops: ["Tea", "Coffee", "Macadamia"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Dairy cattle", "Goats"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Tea": "Ksh 200/kg",
+                "Coffee": "Ksh 300/kg",
+                "Macadamia": "Ksh 200/kg"
+            }
+        },
+        "Nairobi": { 
+            crops: ["Urban farming", "Vegetables", "Dairy farming"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Zero-grazing dairy", "Rabbits"],
+            poultry: ["Layers (small scale)", "Quails"],
+            marketPrices: {
+                "Vegetables": "Ksh 40-100/kg",
+                "Milk": "Ksh 60/liter",
+                "Eggs": "Ksh 15/piece"
+            }
+        },
+        "Nakuru": { 
+            crops: ["Wheat", "Barley", "Dairy farming"], 
+            season: "March - May", 
+            harvest: "August - October",
+            livestock: ["Dairy cattle", "Sheep"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Wheat": "Ksh 60/kg",
+                "Barley": "Ksh 50/kg",
+                "Milk": "Ksh 50/liter"
+            }
+        },
+        "Nandi": { 
+            crops: ["Tea", "Maize", "Coffee"], 
+            season: "March - May", 
+            harvest: "August - October",
+            livestock: ["Dairy cattle", "Sheep"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Tea": "Ksh 200/kg",
+                "Maize": "Ksh 50/kg",
+                "Coffee": "Ksh 300/kg"
+            }
+        },
+        "Narok": { 
+            crops: ["Wheat", "Maize", "Barley"], 
+            season: "March - May", 
+            harvest: "August - October",
+            livestock: ["Beef cattle", "Sheep"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Wheat": "Ksh 60/kg",
+                "Maize": "Ksh 50/kg",
+                "Barley": "Ksh 50/kg"
+            }
+        },
+        "Nyamira": { 
+            crops: ["Tea", "Bananas", "Coffee"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Dairy cattle", "Pigs"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Tea": "Ksh 200/kg",
+                "Bananas": "Ksh 20/piece",
+                "Coffee": "Ksh 300/kg"
+            }
+        },
+        "Nyandarua": { 
+            crops: ["Potatoes", "Carrots", "Cabbages"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Dairy cattle", "Sheep"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
                 "Potatoes": "Ksh 40/kg",
                 "Carrots": "Ksh 60/kg",
-                "Peas": "Ksh 100/kg"
-            };
-            return crops.split(', ').map(crop => `${crop}: ${priceData[crop] || 'N/A'}`).join('<br>');
+                "Cabbages": "Ksh 30/piece"
+            }
+        },
+        "Nyeri": { 
+            crops: ["Coffee", "Tea", "Macadamia"], 
+            season: "March - May", 
+            harvest: "August - October",
+            livestock: ["Dairy cattle", "Goats"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Coffee": "Ksh 300/kg",
+                "Tea": "Ksh 200/kg",
+                "Macadamia": "Ksh 200/kg"
+            }
+        },
+        "Samburu": { 
+            crops: ["Pasture farming", "Melons", "Tomatoes"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Camels", "Goats", "Sheep"],
+            poultry: ["Local chickens", "Guinea fowl"],
+            marketPrices: {
+                "Melons": "Ksh 50/kg",
+                "Tomatoes": "Ksh 60/kg",
+                "Beef": "Ksh 400/kg"
+            }
+        },
+        "Siaya": { 
+            crops: ["Sorghum", "Groundnuts", "Cassava"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Indigenous cattle", "Goats"],
+            poultry: ["Local chickens", "Ducks"],
+            marketPrices: {
+                "Sorghum": "Ksh 70/kg",
+                "Groundnuts": "Ksh 150/kg",
+                "Cassava": "Ksh 30/kg"
+            }
+        },
+        "Taita Taveta": { 
+            crops: ["Bananas", "Mangoes", "Tomatoes"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Indigenous cattle", "Goats"],
+            poultry: ["Local chickens", "Ducks"],
+            marketPrices: {
+                "Bananas": "Ksh 20/piece",
+                "Mangoes": "Ksh 50/kg",
+                "Tomatoes": "Ksh 60/kg"
+            }
+        },
+        "Tana River": { 
+            crops: ["Melons", "Rice", "Mangoes"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Camels", "Goats", "Sheep"],
+            poultry: ["Local chickens", "Ducks"],
+            marketPrices: {
+                "Melons": "Ksh 50/kg",
+                "Rice": "Ksh 120/kg",
+                "Mangoes": "Ksh 50/kg"
+            }
+        },
+        "Tharaka Nithi": { 
+            crops: ["Tea", "Miraa", "Bananas"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Dairy cattle", "Goats"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Tea": "Ksh 200/kg",
+                "Miraa": "Ksh 200/bundle",
+                "Bananas": "Ksh 20/piece"
+            }
+        },
+        "Trans Nzoia": { 
+            crops: ["Maize", "Wheat", "Barley"], 
+            season: "March - May", 
+            harvest: "August - October",
+            livestock: ["Dairy cattle", "Sheep"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Maize": "Ksh 50/kg",
+                "Wheat": "Ksh 60/kg",
+                "Barley": "Ksh 50/kg"
+            }
+        },
+        "Turkana": { 
+            crops: ["Pasture farming", "Melons", "Dates"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Camels", "Goats", "Sheep"],
+            poultry: ["Local chickens", "Guinea fowl"],
+            marketPrices: {
+                "Melons": "Ksh 50/kg",
+                "Dates": "Ksh 200/kg",
+                "Camel milk": "Ksh 100/liter"
+            }
+        },
+        "Uasin Gishu": { 
+            crops: ["Wheat", "Maize", "Barley"], 
+            season: "March - May", 
+            harvest: "August - October",
+            livestock: ["Dairy cattle", "Sheep"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Wheat": "Ksh 60/kg",
+                "Maize": "Ksh 50/kg",
+                "Barley": "Ksh 50/kg"
+            }
+        },
+        "Vihiga": { 
+            crops: ["Tea", "Maize", "Beans"], 
+            season: "March - May", 
+            harvest: "August - October",
+            livestock: ["Dairy cattle", "Pigs"],
+            poultry: ["Layers", "Broilers"],
+            marketPrices: {
+                "Tea": "Ksh 200/kg",
+                "Maize": "Ksh 50/kg",
+                "Beans": "Ksh 90/kg"
+            }
+        },
+        "Wajir": { 
+            crops: ["Pasture farming", "Melons", "Tomatoes"], 
+            season: "April - June", 
+            harvest: "July - September",
+            livestock: ["Camels", "Goats", "Sheep"],
+            poultry: ["Local chickens", "Guinea fowl"],
+            marketPrices: {
+                "Melons": "Ksh 50/kg",
+                "Tomatoes": "Ksh 60/kg",
+                "Camel meat": "Ksh 500/kg"
+            }
+        },
+        "West Pokot": { 
+            crops: ["Maize", "Beans", "Pasture farming"], 
+            season: "March - May", 
+            harvest: "July - September",
+            livestock: ["Beef cattle", "Goats", "Sheep"],
+            poultry: ["Local chickens", "Guinea fowl"],
+            marketPrices: {
+                "Maize": "Ksh 50/kg",
+                "Beans": "Ksh 90/kg",
+                "Beef": "Ksh 400/kg"
+            }
         }
-        function fetchIrrigationData() {
-    const county = document.getElementById("irrigation-county").value;
-    const waterSource = document.getElementById("water-source").value;
-    const irrigationInfo = document.getElementById("irrigation-info");
+    };
 
-    if (!county || !waterSource) {
-        irrigationInfo.innerHTML = "<p style='color: red;'>Please select both county and water source.</p>";
-        return;
+    function fetchClimateData() {
+        const county = document.getElementById("county").value;
+        const infoDiv = document.getElementById("climate-info");
+
+        if (agriculturalData[county]) {
+            const { crops, season, harvest, livestock, poultry, marketPrices } = agriculturalData[county];
+            
+            // Format market prices
+            const pricesHTML = Object.entries(marketPrices).map(([crop, price]) => 
+                `<li>${crop}: ${price}</li>`
+            ).join('');
+            
+            infoDiv.innerHTML = `
+                <div class="climate-section">
+                    <h3>Climate & Agricultural Insights for ${county}</h3>
+                    
+                    <div class="recommendation-box">
+                        <h4>Recommended Crops</h4>
+                        <p><strong>Best Crops:</strong> ${crops.join(", ")}</p>
+                        <p><strong>Planting Season:</strong> ${season}</p>
+                        <p><strong>Expected Harvest:</strong> ${harvest}</p>
+                    </div>
+                    
+                    <div class="recommendation-box">
+                        <h4>Livestock & Poultry</h4>
+                        <p><strong>Recommended Livestock:</strong> ${livestock.join(", ")}</p>
+                        <p><strong>Recommended Poultry:</strong> ${poultry.join(", ")}</p>
+                    </div>
+                    
+                    <div class="recommendation-box">
+                        <h4>Current Market Prices</h4>
+                        <ul>${pricesHTML}</ul>
+                    </div>
+                    
+                    <div class="weather-info">
+                        <p><strong>Estimated Temperature:</strong> ${estimateTemperature(county)}°C</p>
+                        <p><strong>Weather Condition:</strong> ${estimateWeatherCondition(estimateTemperature(county))}</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            infoDiv.innerHTML = "<p>No agricultural data available for selected county.</p>";
+        }
     }
 
-    let recommendations = "";
-
-    if (county === "Arid") {
-        recommendations = "Drip irrigation is recommended due to water scarcity. Mulching helps retain soil moisture.";
-    } else if (county === "SemiArid") {
-        recommendations = "Consider using micro-sprinklers or drip irrigation. Water conservation techniques are key.";
-    } else if (county === "Highland") {
-        recommendations = "Sprinkler irrigation works well in highland areas with reliable rainfall.";
-    } else if (county === "Lake") {
-        recommendations = "Flood or furrow irrigation may be suitable due to proximity to water sources.";
-    } else if (county === "Coastal") {
-        recommendations = "Drip irrigation with saline-resistant plants is recommended for coastal regions.";
+    function estimateTemperature(county) {
+        if (["Garissa", "Mandera", "Wajir", "Turkana"].includes(county)) return 32;
+        if (["Kajiado", "Machakos", "Makueni", "Kitui"].includes(county)) return 28;
+        if (["Nyeri", "Meru", "Kiambu", "Murang'a"].includes(county)) return 22;
+        if (["Kisumu", "Siaya", "Homa Bay", "Migori"].includes(county)) return 26;
+        if (["Mombasa", "Kilifi", "Kwale", "Lamu"].includes(county)) return 30;
+        return 26;
     }
 
-    recommendations += "<br><strong>Water Source Considerations:</strong> ";
-    if (waterSource === "river") {
-        recommendations += "Ensure proper filtration and check for seasonal variations in water levels.";
-    } else if (waterSource === "well") {
-        recommendations += "Drip irrigation is effective for conserving well water. Consider recharge strategies.";
-    } else if (waterSource === "rain") {
-        recommendations += "Rainwater harvesting and storage tanks will enhance irrigation during dry seasons.";
-    } else if (waterSource === "dam") {
-        recommendations += "Can support large-scale irrigation; proper management is essential to avoid water loss.";
+    function estimateWeatherCondition(temp) {
+        if (temp > 28) return "Sunny and Dry";
+        if (temp >= 24 && temp <= 28) return "Partly Cloudy";
+        return "Rainy";
     }
 
-    irrigationInfo.innerHTML = `<p style='color: green;'>${recommendations}</p>`;
-}
+    function fetchIrrigationData() {
+        const county = document.getElementById("irrigation-county").value;
+        const waterSource = document.getElementById("water-source").value;
+        const irrigationInfo = document.getElementById("irrigation-info");
 
-    </script>
+        if (!county || !waterSource) {
+            irrigationInfo.innerHTML = "<p style='color: red;'>Please select both county and water source.</p>";
+            return;
+        }
+
+        // Determine county type
+        let countyType = "";
+        if (["Garissa", "Mandera", "Wajir", "Turkana"].includes(county)) countyType = "Arid";
+        else if (["Nakuru", "Laikipia", "Nyandarua", "Nyeri"].includes(county)) countyType = "Highland";
+        else if (["Mombasa", "Kilifi", "Kwale", "Lamu"].includes(county)) countyType = "Coastal";
+        else countyType = "General";
+
+        let recommendations = {
+            system: "",
+            cost: "",
+            waterSaving: "",
+            tips: "",
+            subsidies: ""
+        };
+
+        if (countyType === "Arid") {
+            recommendations.system = "Drip irrigation";
+            recommendations.cost = "Ksh 50,000 - 150,000 per acre";
+            recommendations.waterSaving = "Up to 60% water savings";
+            recommendations.tips = "Use mulching to retain moisture. Consider drought-resistant crops.";
+            recommendations.subsidies = "National Irrigation Board offers 50% subsidy for arid areas";
+        } 
+        else if (countyType === "Highland") {
+            recommendations.system = "Sprinkler irrigation";
+            recommendations.cost = "Ksh 30,000 - 100,000 per acre";
+            recommendations.waterSaving = "30-40% water savings";
+            recommendations.tips = "Best for crops like potatoes and cabbages. Time irrigation to avoid evaporation.";
+            recommendations.subsidies = "County governments offer 30% subsidy for highland irrigation";
+        }
+        else if (countyType === "Coastal") {
+            recommendations.system = "Drip irrigation with filtration";
+            recommendations.cost = "Ksh 70,000 - 180,000 per acre";
+            recommendations.waterSaving = "50% water savings";
+            recommendations.tips = "Use salt-tolerant crops. Regular system maintenance needed due to salinity.";
+            recommendations.subsidies = "Special coastal development fund available";
+        }
+        else {
+            recommendations.system = "Drip or sprinkler depending on crop";
+            recommendations.cost = "Ksh 40,000 - 120,000 per acre";
+            recommendations.waterSaving = "40-50% water savings";
+            recommendations.tips = "Match irrigation system to your main crops. Consider water storage.";
+            recommendations.subsidies = "General agricultural subsidies apply";
+        }
+
+        // Water source specific additions
+        if (waterSource === "river") {
+            recommendations.tips += " Install proper filtration for river water. Check for seasonal flow variations.";
+            recommendations.subsidies += " plus additional 10% for river water projects";
+        } 
+        else if (waterSource === "well") {
+            recommendations.tips += " Monitor well levels. Consider drip irrigation for maximum efficiency.";
+            recommendations.waterSaving = "Up to 70% water savings for well sources";
+        }
+        else if (waterSource === "rain") {
+            recommendations.tips += " Invest in water storage. Use rainwater harvesting techniques.";
+            recommendations.subsidies += " plus 20% for rainwater harvesting systems";
+        }
+
+        irrigationInfo.innerHTML = `
+            <h3>Smart Irrigation Recommendations for ${county}</h3>
+            <div class="recommendation-box">
+                <p><strong>Best System:</strong> ${recommendations.system}</p>
+                <p><strong>Estimated Cost:</strong> ${recommendations.cost}</p>
+                <p><strong>Water Saving:</strong> ${recommendations.waterSaving}</p>
+                <p><strong>Implementation Tips:</strong> ${recommendations.tips}</p>
+                <p><strong>Government Subsidies:</strong> ${recommendations.subsidies}</p>
+            </div>
+            ${agriculturalData[county] ? `
+            <div class="livestock-watering">
+                <h4>Livestock Watering Advice</h4>
+                <p>For ${agriculturalData[county].livestock.join(", ")}, consider:</p>
+                <ul>
+                    <li>Automatic watering systems for efficient water use</li>
+                    <li>Water troughs placed in shaded areas</li>
+                    <li>Regular cleaning of watering points</li>
+                </ul>
+            </div>
+            ` : ''}
+        `;
+    }
+</script>
 </body>
 </html>
