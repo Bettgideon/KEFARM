@@ -14,8 +14,9 @@
             <input type="text" id="name" name="name" required>
 
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" required oninput="validateEmail()">
+            <input type="email" id="email" name="email" required oninput="validateEmail()" placeholder="example@domain.com">
             <small id="email-error" class="error-message"></small>
+          
 
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required oninput="validatePassword()">
@@ -61,10 +62,15 @@
             let email = document.getElementById("email").value;
             let errorMsg = document.getElementById("email-error");
 
+            // Enhanced email regex with better validation
             let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-            if (!emailRegex.test(email)) {
-                errorMsg.textContent = "Enter a valid email address (e.g., user@example.com)";
+            if (email === "") {
+                errorMsg.textContent = "Email is required";
+            } else if (!email.includes("@")) {
+                errorMsg.textContent = "Email must contain @ symbol (e.g., user@example.com)";
+            } else if (!emailRegex.test(email)) {
+                errorMsg.textContent = "Please enter a valid email address (e.g., username@domain.com)";
             } else {
                 errorMsg.textContent = ""; // Clear error message
             }
@@ -72,27 +78,61 @@
 
         // Handle Form Submission with AJAX
         document.getElementById("register-form").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent default form submission
+            event.preventDefault(); // Prevent default form submission
 
-        let formData = new FormData(this);
+            // Validate all fields before submission
+            validateEmail();
+            validatePassword();
+            checkConfirmPassword();
 
-        fetch("register_process.php", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json()) // Ensure response is JSON
-        .then(data => {
-            alert(data.message); // Show message
+            // Check if there are any error messages
+            let errors = document.querySelectorAll('.error-message');
+            let hasErrors = false;
+            errors.forEach(error => {
+                if (error.textContent !== "") {
+                    hasErrors = true;
+                }
+            });
 
-            if (data.status === "success") {
-                setTimeout(() => {
-                    window.location.href = data.redirect; // Redirect after success
-                }, 2000); // Add delay for better user experience
+            if (hasErrors) {
+                return; // Don't submit if there are errors
             }
-        })
-        .catch(error => console.error("Error:", error));
-    });
+
+            let formData = new FormData(this);
+
+            fetch("register_process.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json()) // Ensure response is JSON
+            .then(data => {
+                alert(data.message); // Show message
+
+                if (data.status === "success") {
+                    setTimeout(() => {
+                        window.location.href = data.redirect; // Redirect after success
+                    }, 2000); // Add delay for better user experience
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
     </script>
 
+    <style>
+        .hint {
+            display: block;
+            color: #666;
+            font-size: 0.8em;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+        .error-message {
+            color: red;
+            font-size: 0.8em;
+            display: block;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
 </body>
 </html>
