@@ -4,14 +4,14 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../login.html");
     exit();
 }
-
-// Include database connection
-include 'db_connection.php';
-
-// Include sidebar and header
-include 'includes/sidebar.php';
-include 'includes/header.php';
+include '../db_connect.php';
 ?>
+<?php
+$current_page = 'reports.php'; // Define the current page
+include 'includes/sidebar.php'; // Include the sidebar
+?>
+
+<?php include 'includes/header.php'; ?> <!-- Include Header -->
 
 <!DOCTYPE html>
 <html lang="en">

@@ -1,15 +1,17 @@
 <?php
 session_start();
-if (!isset($_SESSION["user_id"])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: ../login.html");
     exit();
 }
-
+include '../db_connect.php';
+?>
+<?php
+$current_page = 'reports.php'; // Define the current page
+include 'includes/sidebar.php'; // Include the sidebar
 ?>
 
-<?php include 'includes/sidebar.php'; ?> <!-- Include Sidebar -->
 <?php include 'includes/header.php'; ?> <!-- Include Header -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
