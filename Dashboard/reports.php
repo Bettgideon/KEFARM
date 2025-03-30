@@ -1,17 +1,25 @@
+
 <?php
 session_start();
-if (!isset($_SESSION['user_id'])) {
+
+// Redirect to login if not logged in
+if (!isset($_SESSION["user_id"])) {
     header("Location: ../login.html");
     exit();
 }
-include '../db_connect.php';
-?>
-<?php
+
+// Restrict access to Admin users only
+if ($_SESSION["user_role"] !== "Admin") { // Ensure you check "user_role" and not "role"
+    echo "Access Denied!";
+    exit();
+}
+
+include '../db_connect.php'; // Ensure DB connection is included after session start
+
 $current_page = 'reports.php'; // Define the current page
 include 'includes/sidebar.php'; // Include the sidebar
+include 'includes/header.php'; // Include Header
 ?>
-
-<?php include 'includes/header.php'; ?> <!-- Include Header -->
 
 <!DOCTYPE html>
 <html lang="en">

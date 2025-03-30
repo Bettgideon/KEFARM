@@ -68,9 +68,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $stmt->close();
 
+    // Assign role based on user count (First user = Admin, others = Farmer)
+    $role = 'Farmer'; // Default role
+    $status = 'Active'; // Default status
+
+    $result = $conn->query("SELECT COUNT(*) as total FROM users");
+    $row = $result->fetch_assoc();
+    if ($row['total'] == 0) {
+        $role = 'Admin'; // First registered user is Admin
+    }
+
     // Insert User Data into Database
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $name, $email, $hashed_password);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, role, status) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $name, $email, $hashed_password, $role, $status);
 
     if ($stmt->execute()) {
         http_response_code(201);
