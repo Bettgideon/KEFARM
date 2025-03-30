@@ -1,25 +1,28 @@
 <?php
+// Start session and enable error reporting
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// Redirect to login if not logged in
+// Check if user is logged in
 if (!isset($_SESSION["user_id"])) {
     header("Location: ../login.html");
     exit();
 }
 
-// Restrict access to Admin users only
-if ($_SESSION["user_role"] !== "Admin") { // Ensure you check "user_role" and not "role"
-    echo "Access Denied!";
-    exit();
+// Database connection
+require_once 'db_connection.php';
+
+// Verify connection is working
+if (!isset($conn) || $conn->connect_error) {
+    die("Database connection failed: " . $conn->connect_error);
 }
 
-include '../db_connect.php'; // Ensure DB connection is included after session start
+// Include other files
+include 'includes/sidebar.php';
+include 'includes/header.php';
 
-$current_page = 'farm_management.php'; // Define the current page
-include 'includes/sidebar.php'; // Include the sidebar
-include 'includes/header.php'; // Include Header
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

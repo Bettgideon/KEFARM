@@ -17,6 +17,7 @@ date_default_timezone_set("Africa/Nairobi");
 // Set default user name if not logged in
 if (!isset($_SESSION["user_name"])) {
     $_SESSION["user_name"] = "Guest";
+    $_SESSION["user_role"] = "Guest"; // Add default role
 }
 
 // Dynamic greeting based on time
@@ -28,6 +29,9 @@ if ($hour < 12) {
 } else {
     $greeting = "Good evening";
 }
+
+// Check if user is admin
+$isAdmin = isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,13 +66,45 @@ if ($hour < 12) {
             margin: 0;
         }
 
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .welcome-message {
             font-size: 16px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            margin-right: 20px;
             flex-shrink: 0;
+        }
+
+        .user-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .badge-admin {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid #ffcc00;
+            color: #ffcc00;
+        }
+
+        .badge-user {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ffffff;
+        }
+
+        .badge-guest {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid #aaaaaa;
+            color: #aaaaaa;
         }
 
         /* Ensure content isn't hidden behind fixed header */
@@ -86,13 +122,28 @@ if ($hour < 12) {
                 font-size: 18px;
             }
 
+            .user-info {
+                gap: 8px;
+            }
+
             .welcome-message {
                 font-size: 14px;
                 max-width: 120px;
             }
+
+            .user-badge {
+                padding: 2px 6px;
+                font-size: 12px;
+            }
             
             main {
                 padding-top: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-message {
+                display: none;
             }
         }
     </style>
@@ -102,7 +153,19 @@ if ($hour < 12) {
 <!-- Header Section -->
 <header class="header">
     <h2>KEFARM</h2>
-    <span class="welcome-message"><?php echo $greeting; ?>, <?php echo htmlspecialchars($_SESSION["user_name"]); ?>!</span>
+    <div class="user-info">
+        <span class="welcome-message"><?php echo $greeting; ?>, <?php echo htmlspecialchars($_SESSION["user_name"]); ?></span>
+        <span class="user-badge <?php echo 'badge-' . strtolower($_SESSION["user_role"] ?? 'guest'); ?>">
+            <?php if ($isAdmin): ?>
+                <i class="fas fa-shield-alt"></i>
+            <?php elseif ($_SESSION["user_role"] === "User"): ?>
+                <i class="fas fa-user"></i>
+            <?php else: ?>
+                <i class="fas fa-user-clock"></i>
+            <?php endif; ?>
+            <?php echo htmlspecialchars($_SESSION["user_role"] ?? 'Guest'); ?>
+        </span>
+    </div>
 </header>
 
 <main>

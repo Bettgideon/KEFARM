@@ -1,14 +1,32 @@
 <?php
 session_start();
-if (!isset($_SESSION["user_id"]) || $_SESSION["user_role"] !== "Admin") {
+
+// Redirect to login if not logged in
+if (!isset($_SESSION["user_id"])) {
     header("Location: ../login.html");
     exit();
 }
 
-include '../db_connect.php';
-$current_page = 'users.php';
-include 'includes/sidebar.php';
-include 'includes/header.php';
+// Restrict access to Admin users only
+if ($_SESSION["user_role"] !== "Admin") { // Ensure you check "user_role" and not "role"
+    echo "Access Denied!";
+    exit();
+}
+
+include '../db_connect.php'; // Ensure DB connection is included after session start
+
+$current_page = 'users.php'; // Define the current page
+include 'includes/sidebar.php'; // Include the sidebar
+include 'includes/header.php'; // Include Header
+
+
+// Check if current user is the first admin (super admin)
+$is_super_admin = false;
+$first_admin_query = $conn->query("SELECT id FROM users ORDER BY id ASC LIMIT 1");
+if ($first_admin_query->num_rows > 0) {
+    $first_admin = $first_admin_query->fetch_assoc();
+    $is_super_admin = ($_SESSION["user_id"] == $first_admin['id']);
+}
 
 // Initialize message variables
 $message = '';
@@ -22,35 +40,41 @@ if (isset($_POST["add_user"])) {
     $role = $conn->real_escape_string($_POST["role"]);
     $status = $conn->real_escape_string($_POST["status"]);
     
-    // Validate inputs
-    if (empty($name) || empty($email) || empty($_POST["password"])) {
-        $message = "All fields are required";
-        $message_type = "error";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $message = "Invalid email format";
-        $message_type = "error";
-    } elseif (strlen($_POST["password"]) < 8) {
-        $message = "Password must be at least 8 characters";
+    // Only super admin can create other admins
+    if (!$is_super_admin && ($role === 'Admin' || $role === 'Main Admin')) {
+        $message = "Only the main admin can create other admins";
         $message_type = "error";
     } else {
-        // Check if email exists
-        $check = $conn->query("SELECT id FROM users WHERE email='$email'");
-        if ($check->num_rows > 0) {
-            $message = "Email already exists";
+        // Validate inputs
+        if (empty($name) || empty($email) || empty($_POST["password"])) {
+            $message = "All fields are required";
+            $message_type = "error";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $message = "Invalid email format";
+            $message_type = "error";
+        } elseif (strlen($_POST["password"]) < 8) {
+            $message = "Password must be at least 8 characters";
             $message_type = "error";
         } else {
-            $stmt = $conn->prepare("INSERT INTO users (name, email, password, role, status) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssss", $name, $email, $password, $role, $status);
-            if ($stmt->execute()) {
-                $message = "User added successfully";
-                $message_type = "success";
-                // Clear form fields
-                $_POST["name"] = $_POST["email"] = $_POST["password"] = '';
-            } else {
-                $message = "Error adding user: " . $conn->error;
+            // Check if email exists
+            $check = $conn->query("SELECT id FROM users WHERE email='$email'");
+            if ($check->num_rows > 0) {
+                $message = "Email already exists";
                 $message_type = "error";
+            } else {
+                $stmt = $conn->prepare("INSERT INTO users (name, email, password, role, status) VALUES (?, ?, ?, ?, ?)");
+                $stmt->bind_param("sssss", $name, $email, $password, $role, $status);
+                if ($stmt->execute()) {
+                    $message = "User added successfully";
+                    $message_type = "success";
+                    // Clear form fields
+                    $_POST["name"] = $_POST["email"] = $_POST["password"] = '';
+                } else {
+                    $message = "Error adding user: " . $conn->error;
+                    $message_type = "error";
+                }
+                $stmt->close();
             }
-            $stmt->close();
         }
     }
 }
@@ -63,6 +87,11 @@ if (isset($_POST["update_role"])) {
     // Prevent changing your own role
     if ($user_id == $_SESSION["user_id"]) {
         $message = "You cannot change your own role";
+        $message_type = "error";
+    } 
+    // Only super admin can promote to admin/main admin
+    elseif (!$is_super_admin && ($role === 'Admin' || $role === 'Main Admin')) {
+        $message = "Only the main admin can promote users to admin roles";
         $message_type = "error";
     } else {
         $stmt = $conn->prepare("UPDATE users SET role = ? WHERE id = ?");
@@ -109,42 +138,107 @@ if (isset($_POST["delete_user"])) {
     if ($user_id == $_SESSION["user_id"]) {
         $message = "You cannot delete your own account";
         $message_type = "error";
-    } else {
-        $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
-        $stmt->bind_param("i", $user_id);
-        if ($stmt->execute()) {
-            $message = "User deleted successfully";
-            $message_type = "success";
-        } else {
-            $message = "Error deleting user: " . $conn->error;
-            $message_type = "error";
+    } 
+    // Only super admin can delete other admins
+    elseif (!$is_super_admin) {
+        $user_to_delete = $conn->query("SELECT role FROM users WHERE id = $user_id");
+        if ($user_to_delete->num_rows > 0) {
+            $user_role = $user_to_delete->fetch_assoc()['role'];
+            if ($user_role === 'Admin' || $user_role === 'Main Admin') {
+                $message = "Only the main admin can delete other admins";
+                $message_type = "error";
+            } else {
+                deleteUser($user_id);
+            }
         }
-        $stmt->close();
+    } else {
+        deleteUser($user_id);
     }
+}
+
+function deleteUser($user_id) {
+    global $conn, $message, $message_type;
+    $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    if ($stmt->execute()) {
+        $message = "User deleted successfully";
+        $message_type = "success";
+    } else {
+        $message = "Error deleting user: " . $conn->error;
+        $message_type = "error";
+    }
+    $stmt->close();
 }
 
 // Handle Bulk Actions
 if (isset($_POST["bulk_action"])) {
     if (!empty($_POST["selected_users"])) {
-        $user_ids = implode(",", array_map('intval', $_POST["selected_users"]));
+        $selected_users = array_map('intval', $_POST["selected_users"]);
         
         switch ($_POST["bulk_action"]) {
             case 'activate':
-                $conn->query("UPDATE users SET status='Active' WHERE id IN ($user_ids)");
-                $message = "Selected users activated";
-                $message_type = "success";
+                // Using prepared statement for bulk activate
+                $placeholders = implode(',', array_fill(0, count($selected_users), '?'));
+                $types = str_repeat('i', count($selected_users));
+                $stmt = $conn->prepare("UPDATE users SET status='Active' WHERE id IN ($placeholders)");
+                $stmt->bind_param($types, ...$selected_users);
+                if ($stmt->execute()) {
+                    $message = "Selected users activated";
+                    $message_type = "success";
+                } else {
+                    $message = "Error activating users: " . $conn->error;
+                    $message_type = "error";
+                }
+                $stmt->close();
                 break;
+                
             case 'deactivate':
-                // Exclude current user from deactivation
-                $conn->query("UPDATE users SET status='Inactive' WHERE id IN ($user_ids) AND id != {$_SESSION['user_id']}");
-                $message = "Selected users deactivated";
-                $message_type = "success";
+                // Using prepared statement for bulk deactivate (excluding current user)
+                $placeholders = implode(',', array_fill(0, count($selected_users), '?'));
+                $types = str_repeat('i', count($selected_users));
+                $current_user_id = $_SESSION['user_id'];
+                
+                $stmt = $conn->prepare("UPDATE users SET status='Inactive' WHERE id IN ($placeholders) AND id != ?");
+                $types .= 'i';
+                $params = array_merge($selected_users, [$current_user_id]);
+                $stmt->bind_param($types, ...$params);
+                if ($stmt->execute()) {
+                    $message = "Selected users deactivated";
+                    $message_type = "success";
+                } else {
+                    $message = "Error deactivating users: " . $conn->error;
+                    $message_type = "error";
+                }
+                $stmt->close();
                 break;
+                
             case 'delete':
-                // Exclude current user from deletion
-                $conn->query("DELETE FROM users WHERE id IN ($user_ids) AND id != {$_SESSION['user_id']}");
-                $message = "Selected users deleted";
-                $message_type = "success";
+                // Using prepared statement for bulk delete
+                $placeholders = implode(',', array_fill(0, count($selected_users), '?'));
+                $types = str_repeat('i', count($selected_users));
+                $current_user_id = $_SESSION['user_id'];
+                
+                if ($is_super_admin) {
+                    // Super admin can delete any user except themselves
+                    $stmt = $conn->prepare("DELETE FROM users WHERE id IN ($placeholders) AND id != ?");
+                    $types .= 'i';
+                    $params = array_merge($selected_users, [$current_user_id]);
+                } else {
+                    // Regular admin can only delete non-admin users
+                    $stmt = $conn->prepare("DELETE FROM users WHERE id IN ($placeholders) AND id != ? AND role NOT IN ('Admin', 'Main Admin')");
+                    $types .= 'i';
+                    $params = array_merge($selected_users, [$current_user_id]);
+                }
+                
+                $stmt->bind_param($types, ...$params);
+                if ($stmt->execute()) {
+                    $message = "Selected users deleted";
+                    $message_type = "success";
+                } else {
+                    $message = "Error deleting users: " . $conn->error;
+                    $message_type = "error";
+                }
+                $stmt->close();
                 break;
         }
     }
@@ -300,18 +394,22 @@ $result = $conn->query("SELECT id, name, email, role, status, created_at FROM us
         }
         
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-        
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 450px;
+    background:rgb(6, 61, 10);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    text-align: center;
+}
         .modal-content {
-            background-color: white;
+            background-color: green;
             margin: 10% auto;
             padding: 20px;
             border-radius: 8px;
@@ -377,6 +475,15 @@ $result = $conn->query("SELECT id, name, email, role, status, created_at FROM us
             color: red;
         }
         
+        .super-admin-badge {
+            background-color: #ffc107;
+            color: #000;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 margin-left: 0;
@@ -393,7 +500,7 @@ $result = $conn->query("SELECT id, name, email, role, status, created_at FROM us
 
 <div class="container">
     <div class="user-management-header">
-        <h2>User Management</h2>
+        <h2>User Management <?= $is_super_admin ? '<span class="super-admin-badge">Main Admin</span>' : '' ?></h2>
         <div class="search-box">
             <form method="GET" action="users.php">
                 <input type="text" name="search" placeholder="Search users..." value="<?= htmlspecialchars($search) ?>">
@@ -409,6 +516,7 @@ $result = $conn->query("SELECT id, name, email, role, status, created_at FROM us
         <div class="message <?= $message_type ?>"><?= $message ?></div>
     <?php endif; ?>
     
+    <button onclick="openAddUserModal()" class="add-user-btn"><i class="fas fa-plus"></i> Add New User</button>
     
     <form method="POST" action="users.php">
         <div class="bulk-actions">
@@ -435,19 +543,32 @@ $result = $conn->query("SELECT id, name, email, role, status, created_at FROM us
                 </tr>
             </thead>
             <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
+                <?php while ($row = $result->fetch_assoc()): 
+                    $is_current_user = ($row['id'] == $_SESSION['user_id']);
+                    $is_admin_role = ($row['role'] === 'Admin' || $row['role'] === 'Main Admin');
+                ?>
                     <tr>
-                        <td><input type="checkbox" name="selected_users[]" value="<?= $row['id'] ?>"></td>
+                        <td>
+                            <?php if (!$is_current_user && ($is_super_admin || !$is_admin_role)): ?>
+                                <input type="checkbox" name="selected_users[]" value="<?= $row['id'] ?>">
+                            <?php endif; ?>
+                        </td>
                         <td><?= htmlspecialchars($row['id']) ?></td>
-                        <td><?= htmlspecialchars($row['name']) ?></td>
+                        <td>
+                            <?= htmlspecialchars($row['name']) ?>
+                            <?= ($row['role'] === 'Main Admin') ? '<span class="super-admin-badge">Main Admin</span>' : '' ?>
+                        </td>
                         <td><?= htmlspecialchars($row['email']) ?></td>
                         <td>
                             <form method="POST" action="users.php">
                                 <input type="hidden" name="user_id" value="<?= $row['id'] ?>">
-                                <select name="role" onchange="this.form.submit()">
-                                    <option value="Admin" <?= ($row['role'] === 'Admin') ? 'selected' : '' ?>>Admin</option>
+                                <select name="role" onchange="this.form.submit()" <?= ($is_current_user || (!$is_super_admin && $is_admin_role)) ? 'disabled' : '' ?>>
                                     <option value="Farmer" <?= ($row['role'] === 'Farmer') ? 'selected' : '' ?>>Farmer</option>
                                     <option value="Staff" <?= ($row['role'] === 'Staff') ? 'selected' : '' ?>>Staff</option>
+                                    <?php if ($is_super_admin): ?>
+                                        <option value="Admin" <?= ($row['role'] === 'Admin') ? 'selected' : '' ?>>Admin</option>
+                                        <option value="Main Admin" <?= ($row['role'] === 'Main Admin') ? 'selected' : '' ?>>Main Admin</option>
+                                    <?php endif; ?>
                                 </select>
                                 <input type="hidden" name="update_role" value="1">
                             </form>
@@ -455,7 +576,7 @@ $result = $conn->query("SELECT id, name, email, role, status, created_at FROM us
                         <td>
                             <form method="POST" action="users.php">
                                 <input type="hidden" name="user_id" value="<?= $row['id'] ?>">
-                                <select name="status" onchange="this.form.submit()">
+                                <select name="status" onchange="this.form.submit()" <?= $is_current_user ? 'disabled' : '' ?>>
                                     <option value="Active" <?= ($row['status'] === 'Active') ? 'selected' : '' ?>>Active</option>
                                     <option value="Inactive" <?= ($row['status'] === 'Inactive') ? 'selected' : '' ?>>Inactive</option>
                                 </select>
@@ -464,12 +585,14 @@ $result = $conn->query("SELECT id, name, email, role, status, created_at FROM us
                         </td>
                         <td><?= date('M j, Y', strtotime($row['created_at'])) ?></td>
                         <td>
-                            <form method="POST" action="users.php" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                <input type="hidden" name="user_id" value="<?= $row['id'] ?>">
-                                <button type="submit" name="delete_user" class="delete-btn">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </form>
+                            <?php if (!$is_current_user && ($is_super_admin || !$is_admin_role)): ?>
+                                <form method="POST" action="users.php" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                    <input type="hidden" name="user_id" value="<?= $row['id'] ?>">
+                                    <button type="submit" name="delete_user" class="delete-btn">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endwhile; ?>
@@ -523,9 +646,12 @@ $result = $conn->query("SELECT id, name, email, role, status, created_at FROM us
             <div class="form-group">
                 <label for="role" class="required">Role</label>
                 <select id="role" name="role" required>
-                    <option value="Admin" <?= (isset($_POST['role']) && $_POST['role'] === 'Admin') ? 'selected' : '' ?>>Admin</option>
-                    <option value="Farmer" <?= (isset($_POST['role']) && $_POST['role'] === 'Farmer') ? 'selected' : '' ?>>Farmer</option>
-                    <option value="Staff" <?= (!isset($_POST['role']) || (isset($_POST['role']) && $_POST['role'] === 'Staff')) ? 'selected' : '' ?>>Staff</option>
+                    <option value="Farmer">Farmer</option>
+                    <option value="Staff">Staff</option>
+                    <?php if ($is_super_admin): ?>
+                        <option value="Admin">Admin</option>
+                        <option value="Main Admin">Main Admin</option>
+                    <?php endif; ?>
                 </select>
             </div>
             <div class="form-group">
@@ -562,7 +688,7 @@ $result = $conn->query("SELECT id, name, email, role, status, created_at FROM us
     
     // Select all checkbox
     document.getElementById('select-all').addEventListener('change', function() {
-        const checkboxes = document.querySelectorAll('input[name="selected_users[]"]');
+        const checkboxes = document.querySelectorAll('input[name="selected_users[]"]:not(:disabled)');
         checkboxes.forEach(checkbox => {
             checkbox.checked = this.checked;
         });
