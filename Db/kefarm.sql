@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 25, 2025 at 08:48 PM
+-- Generation Time: Apr 04, 2025 at 11:56 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -124,18 +124,45 @@ CREATE TABLE `users` (
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `role` enum('Admin','Manager','Farmer','Staff') NOT NULL DEFAULT 'Farmer',
+  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `created_at`) VALUES
-(1, 'Gideon Bett', 'kiprotichgideonbett@gmail.com', '$2y$10$zwP0JZzckMVIzHt1jeV31uXfkSQSAEZaQSmQI9m/4/ybtrmsjnz8q', '2025-03-14 09:52:28'),
-(2, 'Gideon Bett', 'gedionbett@kibwezo.co.ke', '$2y$10$AikXSX8gU0W7jMyAegAm8uMTO2LxTKIsSQDvh74qSFyEflDloR11m', '2025-03-14 10:00:07'),
-(3, 'Gideon Bett', 'gidcomtechnologies@gmail.com', '$2y$10$npsnvmeqwYQ5zmLCvmkeZu4ikczNUZfHQlhI/a0/zitpAGjS0U0wq', '2025-03-14 10:04:13'),
-(4, 'Gideon', 'charlse@gmail.com', '$2y$10$Wyz8vlXqX4kVGMgv6xaztu3fG4xCk4kqJkk7qhga9Eq3DhR2EgtL.', '2025-03-14 10:13:20');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `created_at`, `role`, `status`, `updated_at`) VALUES
+(1, 'Gideon Bett', 'charlse@gmail.com', '$2y$10$yIrdehcwa8sW.DiGdfNeb.7Gyya.30Oe6hGIR854jTcWXA35ODuLW', '2025-03-30 10:29:36', 'Admin', 'Active', '2025-03-30 14:15:31'),
+(8, 'Kevin Makau', 'makau2025@gmail.com', '$2y$10$iOvat6bLo2OyF3AR8C7RpuZ7JE5MiWqLHuC6/s/ykMAK/Xpdr/3p2', '2025-03-30 10:41:34', 'Farmer', 'Active', '2025-03-30 10:41:34'),
+(9, 'Enock Kamau', 'kamau@gmail.com', '$2y$10$EDsCjtFFBEbl3JRZXmKthuCW28HFM8Oe59BT32kwcJjjHmFxbO/EW', '2025-03-30 14:25:23', 'Farmer', 'Active', '2025-03-30 14:27:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users_backup`
+--
+
+CREATE TABLE `users_backup` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `role` enum('Admin','Manager','Farmer','Staff') NOT NULL DEFAULT 'Farmer',
+  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `users_backup`
+--
+
+INSERT INTO `users_backup` (`id`, `name`, `email`, `password`, `created_at`, `role`, `status`, `updated_at`) VALUES
+(7, 'Gideon Bett', 'charlse@gmail.com', '$2y$10$yIrdehcwa8sW.DiGdfNeb.7Gyya.30Oe6hGIR854jTcWXA35ODuLW', '2025-03-30 10:29:36', 'Admin', 'Active', '2025-03-30 10:29:36'),
+(8, 'Kevin Makau', 'makau2025@gmail.com', '$2y$10$iOvat6bLo2OyF3AR8C7RpuZ7JE5MiWqLHuC6/s/ykMAK/Xpdr/3p2', '2025-03-30 10:41:34', 'Farmer', 'Active', '2025-03-30 10:41:34');
 
 --
 -- Indexes for dumped tables
@@ -188,7 +215,7 @@ ALTER TABLE `farm_items`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `inventory_audit`
@@ -206,7 +233,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
