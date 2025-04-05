@@ -181,7 +181,7 @@ $stats['recent_revenue'] = isset($stats['recent_revenue']) && is_numeric($stats[
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
         :root {
             --primary-color: #2e7d32;
@@ -414,11 +414,12 @@ $stats['recent_revenue'] = isset($stats['recent_revenue']) && is_numeric($stats[
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #eee;
+            
         }
         
         th {
             font-weight: 600;
-            color: #555;
+            color: white;
         }
         
         tr:hover {
@@ -587,7 +588,7 @@ $stats['recent_revenue'] = isset($stats['recent_revenue']) && is_numeric($stats[
         <div class="admin-header">
             <h1 class="admin-title">Admin Dashboard</h1>
             <div class="admin-actions">
-                <button class="admin-btn" onclick="navigateTo('user_management.php')">
+                <button class="admin-btn" onclick="navigateTo('users.php')">
                     <i class="fas fa-users-cog"></i> Manage Users
                 </button>
                 <button class="admin-btn secondary" onclick="navigateTo('system_settings.php')">
