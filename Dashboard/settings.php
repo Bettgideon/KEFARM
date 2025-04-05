@@ -583,13 +583,7 @@ if ($_SESSION["user_role"] === "Admin") {
                 </button>
             </div>
             
-            <div class="content-card">
-                <h4><i class="fas fa-video"></i> Tutorial Videos</h4>
-                <p>Watch step-by-step tutorials to help you navigate the system effectively.</p>
-                <button class="btn btn-primary" onclick="window.open('https://youtube.com/playlist?list=YOUR_PLAYLIST', '_blank')">
-                    <i class="fas fa-play"></i> Watch Now
-                </button>
-            </div>
+            
             
             <div class="content-card">
                 <h4><i class="fas fa-question-circle"></i> FAQs</h4>
