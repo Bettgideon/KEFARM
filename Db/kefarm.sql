@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 04, 2025 at 11:56 AM
+-- Generation Time: Apr 06, 2025 at 10:01 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -21,6 +21,42 @@ SET time_zone = "+00:00";
 --
 -- Database: `kefarm`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_audit_log`
+--
+
+CREATE TABLE `admin_audit_log` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `action_type` varchar(50) NOT NULL,
+  `target_id` int(11) DEFAULT NULL,
+  `details` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `approvals`
+--
+
+CREATE TABLE `approvals` (
+  `approval_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `approval_type` enum('inventory','user_access','financial','other') NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `request_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `decision_date` datetime DEFAULT NULL,
+  `decided_by` int(11) DEFAULT NULL,
+  `item_name` varchar(255) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `new_role` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -91,6 +127,24 @@ CREATE TABLE `inventory_audit` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `inventory_requests`
+--
+
+CREATE TABLE `inventory_requests` (
+  `id` int(11) NOT NULL,
+  `requester_id` int(11) NOT NULL,
+  `item_name` varchar(100) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `details` text,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `reviewed_by` int(11) DEFAULT NULL,
+  `reviewed_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `orders`
 --
 
@@ -116,6 +170,30 @@ INSERT INTO `orders` (`id`, `customer_name`, `product_name`, `quantity`, `total_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `system_settings`
+--
+
+CREATE TABLE `system_settings` (
+  `setting_key` varchar(255) NOT NULL,
+  `setting_value` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `system_settings`
+--
+
+INSERT INTO `system_settings` (`setting_key`, `setting_value`) VALUES
+('date_format', 'Y-m-d'),
+('records_per_page', '25'),
+('system_email', 'admin@kefarm.com'),
+('system_name', 'KeFarm Management System'),
+('theme_style', 'light'),
+('timezone', 'Africa/Nairobi'),
+('time_format', 'H:i');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -137,7 +215,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `created_at`, `role`, `status`, `updated_at`) VALUES
 (1, 'Gideon Bett', 'charlse@gmail.com', '$2y$10$yIrdehcwa8sW.DiGdfNeb.7Gyya.30Oe6hGIR854jTcWXA35ODuLW', '2025-03-30 10:29:36', 'Admin', 'Active', '2025-03-30 14:15:31'),
 (8, 'Kevin Makau', 'makau2025@gmail.com', '$2y$10$iOvat6bLo2OyF3AR8C7RpuZ7JE5MiWqLHuC6/s/ykMAK/Xpdr/3p2', '2025-03-30 10:41:34', 'Farmer', 'Active', '2025-03-30 10:41:34'),
-(9, 'Enock Kamau', 'kamau@gmail.com', '$2y$10$EDsCjtFFBEbl3JRZXmKthuCW28HFM8Oe59BT32kwcJjjHmFxbO/EW', '2025-03-30 14:25:23', 'Farmer', 'Active', '2025-03-30 14:27:24');
+(9, 'Enock Kamau', 'kamau@gmail.com', '$2y$10$EDsCjtFFBEbl3JRZXmKthuCW28HFM8Oe59BT32kwcJjjHmFxbO/EW', '2025-03-30 14:25:23', 'Farmer', 'Active', '2025-03-30 14:27:24'),
+(10, 'Kirigo Kipngeno', 'kipngenokirigo@gmail.com', '$2y$10$QfWWrJt3JHdYKrdqJNonkOODdFuVhVAJigWiba.jjJu0nK7HQ4.MO', '2025-04-04 18:48:20', 'Farmer', 'Active', '2025-04-05 19:03:36');
 
 -- --------------------------------------------------------
 
@@ -164,9 +243,40 @@ INSERT INTO `users_backup` (`id`, `name`, `email`, `password`, `created_at`, `ro
 (7, 'Gideon Bett', 'charlse@gmail.com', '$2y$10$yIrdehcwa8sW.DiGdfNeb.7Gyya.30Oe6hGIR854jTcWXA35ODuLW', '2025-03-30 10:29:36', 'Admin', 'Active', '2025-03-30 10:29:36'),
 (8, 'Kevin Makau', 'makau2025@gmail.com', '$2y$10$iOvat6bLo2OyF3AR8C7RpuZ7JE5MiWqLHuC6/s/ykMAK/Xpdr/3p2', '2025-03-30 10:41:34', 'Farmer', 'Active', '2025-03-30 10:41:34');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_access_requests`
+--
+
+CREATE TABLE `user_access_requests` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `new_role` varchar(50) NOT NULL,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `reviewed_by` int(11) DEFAULT NULL,
+  `reviewed_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin_audit_log`
+--
+ALTER TABLE `admin_audit_log`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `approvals`
+--
+ALTER TABLE `approvals`
+  ADD PRIMARY KEY (`approval_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `decided_by` (`decided_by`);
 
 --
 -- Indexes for table `farm_items`
@@ -189,10 +299,23 @@ ALTER TABLE `inventory_audit`
   ADD KEY `changed_by` (`changed_by`);
 
 --
+-- Indexes for table `inventory_requests`
+--
+ALTER TABLE `inventory_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `requester_id` (`requester_id`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `system_settings`
+--
+ALTER TABLE `system_settings`
+  ADD PRIMARY KEY (`setting_key`);
 
 --
 -- Indexes for table `users`
@@ -202,8 +325,27 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indexes for table `user_access_requests`
+--
+ALTER TABLE `user_access_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `admin_audit_log`
+--
+ALTER TABLE `admin_audit_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `approvals`
+--
+ALTER TABLE `approvals`
+  MODIFY `approval_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `farm_items`
@@ -224,6 +366,12 @@ ALTER TABLE `inventory_audit`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `inventory_requests`
+--
+ALTER TABLE `inventory_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
@@ -233,11 +381,30 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `user_access_requests`
+--
+ALTER TABLE `user_access_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `admin_audit_log`
+--
+ALTER TABLE `admin_audit_log`
+  ADD CONSTRAINT `admin_audit_log_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `approvals`
+--
+ALTER TABLE `approvals`
+  ADD CONSTRAINT `approvals_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `approvals_ibfk_2` FOREIGN KEY (`decided_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `inventory_audit`
@@ -245,6 +412,18 @@ ALTER TABLE `users`
 ALTER TABLE `inventory_audit`
   ADD CONSTRAINT `inventory_audit_ibfk_1` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `inventory_audit_ibfk_2` FOREIGN KEY (`changed_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `inventory_requests`
+--
+ALTER TABLE `inventory_requests`
+  ADD CONSTRAINT `inventory_requests_ibfk_1` FOREIGN KEY (`requester_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `user_access_requests`
+--
+ALTER TABLE `user_access_requests`
+  ADD CONSTRAINT `user_access_requests_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

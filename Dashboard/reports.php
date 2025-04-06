@@ -226,6 +226,7 @@ include 'includes/header.php'; // Include Header
     <div class="main-content">
         <div class="filter-bar">
             <div class="filter-group">
+            <h1 class="admin-title">Reports</h1>
                 <label for="time_range"><i class="fas fa-calendar-alt"></i> Time Range:</label>
                 <select id="time_range">
                     <option value="30">Last 30 Days</option>

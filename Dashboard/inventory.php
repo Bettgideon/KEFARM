@@ -350,7 +350,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <header>
         <h2>Inventory Management</h2>
     </header>
-    
+    <h1 class="admin-title">Inventory</h1>
     <button style="background-color: #007bff; color: white; padding: 10px 15px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s;" 
     onmouseover="this.style.backgroundColor='#0056b3'" 
     onmouseout="this.style.backgroundColor='#007bff'"
