@@ -5,7 +5,8 @@
 
 KEFARM provides a modern digital platform for farmers and agribusiness stakeholders to manage farm operations, track inventory, process orders and sales, and generate actionable reports — all in one responsive and user-friendly dashboard.
 
----
+
+
 
 ## 🚀 Key Features
 
