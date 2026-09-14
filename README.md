@@ -1,4 +1,4 @@
-# 🌾 KEFARM - Smart Farming & Food Security Platform (Kenya 🇰🇪)
+# KEFARM -SDG 2   Smart Farming & Food Security Platform (Kenya 🇰🇪)
 
 
 
