@@ -24,7 +24,7 @@ KEFARM provides a modern digital platform for farmers and agribusiness stakehold
 - 🌗 **Time-based dynamic greeting**
 - 📱 **Fully responsive UI** with mobile toggle navigation
 
-*Also on process integrating an AI Chat assistant 
+- **Also on process integrating an AI Chat assistant**
 ---
 
 ## 🛠️ Built With
