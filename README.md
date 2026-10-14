@@ -2,6 +2,7 @@
 
 
 
+
 **KEFARM** is a personal project developed to support **SDG 2: Zero Hunger** by leveraging technology to enhance **agricultural productivity, food distribution**, and **resource management** for farmers across Kenya. This project was built as part of an **individual learning journey assisted by PLP (Power Learn Project)**.
 
 KEFARM provides a modern digital platform for farmers and agribusiness stakeholders to manage farm operations, track inventory, process orders and sales, and generate actionable reports — all in one responsive and user-friendly dashboard.
