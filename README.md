@@ -102,7 +102,7 @@ KEFARM-Dashboard/
 ## 👨‍💻 Developer
 
 **Gideon Kiprotich Bett**  
-Full-Stack Developer | ICT Enthusiast  
+Full-Stack Developer | ICT Enthusiast  | Data Analyst
 Built during the **Power Learn Project (PLP)** training journey  
 📧 kiprotichgideonbett@gmail.com  
 🌐 [My Portfolio](https://bettgideon-github-io.vercel.app)
