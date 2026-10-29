@@ -414,26 +414,29 @@ require_once __DIR__ . '/includes/header.php';
         <div class="header-actions">
             <span class="badge pending-count"><?= $total ?> pending</span>
             
-            <!-- Search and Filter -->
-            <div class="approvals-controls">
-                <form method="GET" class="search-form">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search approvals..." 
-                               value="<?= htmlspecialchars($search) ?>">
-                        <button type="submit" class="btn btn-search">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </form>
-                
-                <select class="form-select filter-select" onchange="this.form.submit()" name="filter">
-                    <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>All Types</option>
-                    <option value="inventory" <?= $filter === 'inventory' ? 'selected' : '' ?>>Inventory</option>
-                    <option value="user_access" <?= $filter === 'user_access' ? 'selected' : '' ?>>User Access</option>
-                    <option value="financial" <?= $filter === 'financial' ? 'selected' : '' ?>>Financial</option>
-                </select>
-            </div>
+            <!-- Search and Filter (FIXED) -->
+<div class="approvals-controls">
+    <!-- 1. Added id="filterForm" here -->
+    <form method="GET" class="search-form" id="filterForm">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Search approvals..." 
+                   value="<?= htmlspecialchars($search) ?>">
+            <button type="submit" class="btn btn-search">
+                <i class="fas fa-search"></i>
+            </button>
         </div>
+        
+        <!-- 2. This dropdown is now INSIDE the form -->
+        <!-- 3. Updated onchange to target the form by its explicit ID -->
+        <select class="form-select filter-select" onchange="document.getElementById('filterForm').submit()" name="filter">
+            <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>All Types</option>
+            <option value="inventory" <?= $filter === 'inventory' ? 'selected' : '' ?>>Inventory</option>
+            <option value="user_access" <?= $filter === 'user_access' ? 'selected' : '' ?>>User Access</option>
+            <option value="financial" <?= $filter === 'financial' ? 'selected' : '' ?>>Financial</option>
+        </select>
+    </form> <!-- 4. Moved form closing tag to the end -->
+</div>
+
     </div>
 
     <?php if (empty($approvals)): ?>
