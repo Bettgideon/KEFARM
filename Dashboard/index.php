@@ -105,7 +105,7 @@ class DashboardData {
         
         return $stats;
     }
-    
+          
     public function getRecentActivities($limit = 5) {
         $stmt = $this->executeSafeQuery(
             "SELECT activity_type, description, activity_date 
