@@ -543,7 +543,7 @@ $stats['spending'] = isset($stats['spending']) && is_numeric($stats['spending'])
         <div class="welcome-text">
             <h1>Welcome back, <?php echo htmlspecialchars($_SESSION["user_name"]); ?>!</h1>
             <!-- The paragraph now prints the current date dynamically -->
-            <p>Today is <span class="banner-date"><?php echo date('l, F j, Y'); ?></span>. Here's what's happening with your farm.</p>
+            <p>Today is <span class="banner-date"><?php echo date('l, F j, Y'); ?></span>. Here's what's happening with your farm today.</p>
         </div>
 
             <div class="quick-actions">
