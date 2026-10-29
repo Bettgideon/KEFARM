@@ -170,7 +170,7 @@ $stats['spending'] = isset($stats['spending']) && is_numeric($stats['spending'])
     <link rel="stylesheet" href="styles.css">
     <style>
         :root {
-            --primary-color: #2e7d32;
+            --primary-color: #2e9a34;
             --secondary-color: #1565c0;
             --accent-color: #6a1b9a;
             --warning-color: #c62828;
@@ -189,32 +189,51 @@ $stats['spending'] = isset($stats['spending']) && is_numeric($stats['spending'])
         }
         
         .welcome-banner {
-            background: linear-gradient(135deg, var(--primary-color), #1b5e20);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--card-shadow);
-            transition: all var(--transition-speed);
-        }
-        
-        .welcome-text h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-        
-        .welcome-text p {
-            margin: 5px 0 0;
-            opacity: 0.9;
-        }
-        
-        .quick-actions {
-            display: flex;
-            gap: 15px;
-        }
+    background: linear-gradient(135deg, var(--primary-color), #1b5e20);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--card-shadow);
+    transition: all var(--transition-speed);
+}
+
+.welcome-text h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.welcome-text p {
+    margin: 5px 0 0;
+    opacity: 0.9;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Beautiful translucent date pill for your farm dashboard dark gradient background */
+.banner-date {
+    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white overlay */
+    color: #ffffff;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.3px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: inline-flex;
+    align-items: center;
+}
+
+.quick-actions {
+    display: flex;
+    gap: 15px;
+}
+
         
         .quick-action-btn {
             background-color: rgba(255, 255, 255, 0.2);
@@ -518,13 +537,15 @@ $stats['spending'] = isset($stats['spending']) && is_numeric($stats['spending'])
     </div>
 
     <!-- Main Content -->
-    <div class="main-content" id="main-content">
-        <!-- Welcome Banner -->
-        <div class="welcome-banner">
-            <div class="welcome-text">
-                <h1>Welcome back, <?php echo htmlspecialchars($_SESSION["user_name"]); ?>!</h1>
-                <p>Here's what's happening with your farm today</p>
-            </div>
+<div class="main-content" id="main-content">
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+        <div class="welcome-text">
+            <h1>Welcome back, <?php echo htmlspecialchars($_SESSION["user_name"]); ?>!</h1>
+            <!-- The paragraph now prints the current date dynamically -->
+            <p>Today is <span class="banner-date"><?php echo date('l, F j, Y'); ?></span>. Here's what's happening with your farm.</p>
+        </div>
+
             <div class="quick-actions">
                 <button class="quick-action-btn" onclick="navigateTo('farm_management.php')">
                     <i class="fas fa-tractor"></i> Farm Management
